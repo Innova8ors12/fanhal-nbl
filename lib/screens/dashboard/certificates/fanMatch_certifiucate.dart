@@ -70,13 +70,7 @@ class _CertificatesScreenFanMatchState
     id.clear();
     if (res != null && res['status']) {
       certtemp.clear();
-      // for (var item in data) {
-      //   var certificate = ShowCase.fromJson(item);
-      //   if (certificate.pdf != null) {
-      //     await convertAndAddImages(certificate);
-      //     TeamCertificate.add(certificate);
-      //   }
-      // }
+     
       for (var item in res['data']) {
         _certificate = ShowCase.fromJson(item);
         if (_certificate.pdf != null) {
