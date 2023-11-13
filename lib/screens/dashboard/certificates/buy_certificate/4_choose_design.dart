@@ -407,7 +407,7 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                           EdgeInsets.symmetric(horizontal: size.width * 0.20),
                       child: MyRoundTextField(
                         text: "Enter name",
-                        lenght: 20,
+                        lenght: widget.fanmatch ? 12 : 20,
                         fontColor: textColor1,
                         cont: _certificateName,
                         hintColor: textColor3,
