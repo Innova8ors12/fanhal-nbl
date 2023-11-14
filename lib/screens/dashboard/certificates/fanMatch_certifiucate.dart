@@ -5,6 +5,7 @@ import 'package:fan_hall/controller/auth/league_api.dart';
 import 'package:fan_hall/models/showcase.dart';
 import 'package:fan_hall/providers/theme_provider.dart';
 import 'package:fan_hall/screens/dashboard/certificates/buy_certificate/1_pick_category.dart';
+import 'package:fan_hall/screens/dashboard/certificates/buy_certificate/3_certificate_type.dart';
 import 'package:fan_hall/screens/dashboard/certificates/buy_certificate/4_choose_design.dart';
 import 'package:fan_hall/screens/dashboard/scan_screens/certificate_full_view.dart';
 import 'package:fan_hall/widgets/common.dart';
@@ -35,7 +36,7 @@ class CertificatesScreenFanMatch extends StatefulWidget {
 
 class _CertificatesScreenFanMatchState
     extends State<CertificatesScreenFanMatch> {
-  String? selectedType = "Digital";
+  String? selectedType = "Team";
 
   late Timer _timer;
   final interval = const Duration(seconds: 5);
@@ -58,9 +59,9 @@ class _CertificatesScreenFanMatchState
   List<String> id = [];
   List<Image> certtemp = [];
   ScrollController _scrollController = ScrollController();
-  getshowcasecertificate() async {
+  getshowcasecertificate(String selecttype) async {
     setLoading(true);
-    var res = await ApiModel().getShowcaseFanMatch(page, limit);
+    var res = await ApiModel().getShowcaseFanMatch(selecttype=="Team"?"1":selecttype=="Player"?"2":"3",page, limit);
 
     ShowCase? _certificate;
     // print(res);
@@ -302,7 +303,7 @@ class _CertificatesScreenFanMatchState
 
   Future<dynamic> _refreshData() async {
     await Future.delayed(Duration(seconds: 2));
-    getshowcasecertificate();
+    getshowcasecertificate(selectedType!);
 
     setState(() {
       //  getshowcasecertificate(selectedType!);
@@ -328,7 +329,7 @@ class _CertificatesScreenFanMatchState
   void _scrollListener() {
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
-      getshowcasecertificate();
+      getshowcasecertificate(selectedType!);
     }
   }
 
@@ -336,7 +337,7 @@ class _CertificatesScreenFanMatchState
   void initState() {
     var duration = interval;
     // TODO: implement initState
-    getshowcasecertificate();
+    getshowcasecertificate(selectedType!);
 
     super.initState();
     _scrollController.addListener(_scrollListener);
@@ -397,7 +398,7 @@ class _CertificatesScreenFanMatchState
                                     hint: Padding(
                                       padding: const EdgeInsets.only(left: 8.0),
                                       child: VariableText(
-                                        text: "Digital",
+                                        text: "Team",
                                         fontsize: size.height * 0.014,
                                         fontcolor: textColor2,
                                         fontFamily: fontMedium,
@@ -413,12 +414,12 @@ class _CertificatesScreenFanMatchState
                                       setState(() {
                                         selectedType = value;
                                       });
-                                      getshowcasecertificate();
+                                      getshowcasecertificate(selectedType!);
                                     },
                                     style: TextStyle(
                                         fontSize: size.height * 0.012,
                                         color: textColor1),
-                                    items: Constants.certType
+                                    items: Constants.certTypeformatch
                                         .map<DropdownMenuItem<String>>(
                                             (String item) {
                                       return DropdownMenuItem<String>(
@@ -517,7 +518,7 @@ class _CertificatesScreenFanMatchState
                       child: RefreshIndicator(
                       onRefresh: () async {
                         // Call your function here
-                        getshowcasecertificate();
+                        getshowcasecertificate(selectedType!);
                       },
                       child: GridView.builder(
                         itemCount: certtemp.length,
@@ -626,10 +627,9 @@ class _CertificatesScreenFanMatchState
                         Navigator.push(
                             context,
                             SwipeLeftAnimationRoute(
-                                widget: ChooseDesignScreen(
-                              type: "Digital",
-                              id: "",
-                              fanmatch: true,
+                                widget: CertificateTypeScreen(
+                          isfanmatch: true,
+                          CertificateId: "",
                             ))).then((value) {});
                       },
                       child: Container(

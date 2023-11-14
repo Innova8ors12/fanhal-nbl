@@ -4,8 +4,9 @@ class Constants{
   static List<String> gender = ["Male", "Female","Others"];
   static List<String> nationalities = ["American", "Australian", "British", "Chinese", "Japanese"];
   static List<String> regionsA = ["All", "AFC East", "AFC West", "AFC North", "AFC South"];
-   static List<String> regionsN = ["All", "NFC East", "NFC West", "NFC North", "NFC South"];
+  static List<String> regionsN = ["All", "NFC East", "NFC West", "NFC North", "NFC South"];
   static List<String> certType = ["Digital","WallArt" ];
+  static List<String> certTypeformatch = ["Team","Player","Game"];
   static List<String> season = [ "Season 2023"];
   static List<String> teams = ["2023","2022","2021"];
   static List<String> events = ["Event 1", "Event 2", "Event 3"];

@@ -88,9 +88,8 @@ class SuccessScreen extends StatelessWidget {
                       onTap: () {
                         if (!isfanmatch) {
                           Navigator.of(context).pop();
-                          Navigator.of(context).pop();
-                        
                         }
+                        Navigator.of(context).pop();
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                         Navigator.of(context).pop(true);
@@ -117,10 +116,9 @@ class SuccessScreen extends StatelessWidget {
                             onTap: () {
                               if (!isfanmatch) {
                                 Navigator.of(context).pop();
-                                Navigator.of(context).pop();
-                              
                               }
-                                Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
                               Navigator.of(context).pop();
                               Navigator.of(context).pop(true);
                               // Navigator.push(

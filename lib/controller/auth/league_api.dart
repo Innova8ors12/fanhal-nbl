@@ -310,9 +310,12 @@ class ApiModel {
     }
   }
 
-  Future<dynamic> getFanMatchCertificate(int page, int limit) async {
+  Future<dynamic> getFanMatchCertificate(
+      String type, int page, int limit) async {
     final url = Uri.parse(CONFIG.domain +
         CONFIG.getFanMatchcertificate +
+        type +
+        "/" +
         limit.toString() +
         "?page=$page");
     print(url);
@@ -387,8 +390,9 @@ class ApiModel {
   }
 
   Future<dynamic> getShowcaseFanMatch(
-       int page, int limit) async {
-    final url = Uri.parse(CONFIG.domain + CONFIG.getShowcaseFanMatch
+      String selectedtype, int page, int limit) async {
+    final url = Uri.parse(
+        CONFIG.domain + CONFIG.getShowcaseFanMatch + "/" + selectedtype
 
         // +
         // "/" +

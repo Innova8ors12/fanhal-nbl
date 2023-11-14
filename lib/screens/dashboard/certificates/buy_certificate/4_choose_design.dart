@@ -150,7 +150,7 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
       isLoading = true;
     });
 
-    var res = await ApiModel().getFanMatchCertificate(page, limit);
+    var res = await ApiModel().getFanMatchCertificate(widget.type.toString(),page, limit);
     List<Certificate> certificates = [];
 
     if (res != null && res['status']) {
