@@ -26,6 +26,7 @@ import 'dart:ui' as ui;
 
 class CertificatesScreenFanMatch extends StatefulWidget {
   final bool isshow;
+
   const CertificatesScreenFanMatch({Key? key, required this.isshow})
       : super(key: key);
 
@@ -36,7 +37,7 @@ class CertificatesScreenFanMatch extends StatefulWidget {
 
 class _CertificatesScreenFanMatchState
     extends State<CertificatesScreenFanMatch> {
-  String? selectedType = "Team";
+  String? selectedType = "All";
 
   late Timer _timer;
   final interval = const Duration(seconds: 5);
@@ -61,7 +62,16 @@ class _CertificatesScreenFanMatchState
   ScrollController _scrollController = ScrollController();
   getshowcasecertificate(String selecttype) async {
     setLoading(true);
-    var res = await ApiModel().getShowcaseFanMatch(selecttype=="Team"?"1":selecttype=="Player"?"2":"3",page, limit);
+    var res = await ApiModel().getShowcaseFanMatch(
+        selecttype == "Team"
+            ? "1"
+            : selecttype == "Player"
+                ? "2"
+                : selecttype == "Game"
+                    ? "3"
+                    : "",
+        page,
+        limit);
 
     ShowCase? _certificate;
     // print(res);
@@ -71,7 +81,7 @@ class _CertificatesScreenFanMatchState
     id.clear();
     if (res != null && res['status']) {
       certtemp.clear();
-     
+
       for (var item in res['data']) {
         _certificate = ShowCase.fromJson(item);
         if (_certificate.pdf != null) {
@@ -91,140 +101,11 @@ class _CertificatesScreenFanMatchState
       // nationalId = leagueModel!.data![1]!.id.toString();
       setState(() {});
     }
-    // List<ShowCase> certificates = [];
-
-    // if (res != null && res['status']) {
-    //   var data = res['data'];
-
-    //   if (data is Iterable) {
-    //     for (var item in data) {
-    //       var certificate = ShowCase.fromJson(item);
-
-    //       await convertAndAddImages(certificate);
-    //       certificates.add(certificate);
-    //     }
-    //   } else if (data is Map) {
-    //     var certificate = ShowCase.fromJson(res['data']);
-    //     await convertAndAddImages(certificate);
-    //     certificates.add(certificate);
-    //   }
-
-    //   if (certificates.isNotEmpty) {
-    //     setState(() {
-    //       TeamCertificate.addAll(certificates);
-    //       page++; // Increment page number
-    //       isLoading = false;
-    //     });
-    //   } else {
-    //     setState(() {
-    //       hasMore = false;
-    //       isLoading = false;
-    //     });
-    //   }
-    // } else {
-    //   setState(() {
-    //     isLoading = false;
-    //   });
-    // }
+    
     setLoading(false);
   }
 
   String? checktype;
-  // getTeamCertificates(String selecttype) async {
-  //   if (isLoading || !hasMore) {
-  //     return;
-  //   }
-
-  //   setLoading(true);
-  //   if (checktype == selecttype) {
-  //     var res =
-  //         await ApiModel().getShowcase(selectedType.toString(), page, limit);
-  //     List<ShowCase> certificates = [];
-
-  //     if (res != null && res['status']) {
-  //       if (res != null && res['status']) {
-  //         var data = res['data'];
-
-  //         if (data is Iterable) {
-  //           for (var item in data) {
-  //             var certificate = ShowCase.fromJson(item);
-  //             await convertAndAddImages(certificate);
-  //             certificates.add(certificate);
-  //           }
-  //         } else if (data is Map) {
-  //           var certificate = ShowCase.fromJson(res['data']);
-  //           await convertAndAddImages(certificate);
-  //           certificates.add(certificate);
-  //         }
-
-  //         if (certificates[0].data!.isNotEmpty) {
-  //           setState(() {
-  //             TeamCertificate.addAll(certificates[0].data!);
-  //             page++; // Increment page number
-  //             isLoading = false;
-  //           });
-  //         } else {
-  //           setState(() {
-  //             hasMore = false;
-  //             isLoading = false;
-  //           });
-  //         }
-  //       } else {
-  //         setState(() {
-  //           isLoading = false;
-  //         });
-  //       }
-  //     }
-  //   } else {
-  //     page = 1;
-  //     TeamCertificate.clear();
-  //     show.clear();
-  //     setState(() {});
-  //     setLoading(true);
-  //     var res =
-  //         await ApiModel().getShowcase(selectedType.toString(), page, limit);
-  //     List<ShowCase> certificates = [];
-
-  //     if (res != null && res['status']) {
-  //       if (res != null && res['status']) {
-  //         var data = res['data'];
-
-  //         if (data is Iterable) {
-  //           for (var item in data) {
-  //             var certificate = ShowCase.fromJson(item);
-  //             await convertAndAddImages(certificate);
-  //             certificates.add(certificate);
-  //           }
-  //         } else if (data is Map) {
-  //           var certificate = ShowCase.fromJson(res['data']);
-  //           await convertAndAddImages(certificate);
-  //           certificates.add(certificate);
-  //         }
-
-  //         if (certificates[0].data!.isNotEmpty) {
-  //           setState(() {
-  //             TeamCertificate.addAll(certificates[0].data!);
-  //             page++; // Increment page number
-  //             isLoading = false;
-  //           });
-  //         } else {
-  //           setState(() {
-  //             hasMore = false;
-  //             isLoading = false;
-  //           });
-  //         }
-  //       } else {
-  //         setState(() {
-  //           isLoading = false;
-  //         });
-  //       }
-  //     }
-  //   }
-
-  //   setState(() {
-  //     checktype = selecttype;
-  //   });
-  // }
 
   Future<void> convertAndAddImages(ShowCase certificate) async {
     await pdftoimg(certificate.pdf.toString());
@@ -398,7 +279,7 @@ class _CertificatesScreenFanMatchState
                                     hint: Padding(
                                       padding: const EdgeInsets.only(left: 8.0),
                                       child: VariableText(
-                                        text: "Team",
+                                        text: "All",
                                         fontsize: size.height * 0.014,
                                         fontcolor: textColor2,
                                         fontFamily: fontMedium,
@@ -513,111 +394,114 @@ class _CertificatesScreenFanMatchState
               ),
 
               SizedBox(height: size.height * 0.02),
-           certtemp.isNotEmpty?   widget.isshow
-                  ? Expanded(
-                      child: RefreshIndicator(
-                      onRefresh: () async {
-                        // Call your function here
-                        getshowcasecertificate(selectedType!);
-                      },
-                      child: GridView.builder(
-                        itemCount: certtemp.length,
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: size.width * 0.04,
-                          mainAxisSpacing: size.height * 0.02,
-                          mainAxisExtent: size.height * 0.4,
-                        ),
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context, int index) {
-                          int indexx = index;
+              certtemp.isNotEmpty
+                  ? widget.isshow
+                      ? Expanded(
+                          child: RefreshIndicator(
+                          onRefresh: () async {
+                            // Call your function here
+                            getshowcasecertificate(selectedType!);
+                          },
+                          child: GridView.builder(
+                            itemCount: certtemp.length,
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: size.width * 0.04,
+                              mainAxisSpacing: size.height * 0.02,
+                              mainAxisExtent: size.height * 0.4,
+                            ),
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, int index) {
+                              int indexx = index;
 
-                          return Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    SwipeLeftAnimationRoute(
-                                      widget: CertificateFullview(
-                                        image: certtemp[index],
-                                        scan: false,
-                                        show: widget.isshow,
-                                        id: "1",
+                              return Column(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        SwipeLeftAnimationRoute(
+                                          widget: CertificateFullview(
+                                            image: certtemp[index],
+                                            scan: false,
+                                            show: widget.isshow,
+                                            id: "1",
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      child: certtemp.isNotEmpty
+                                          ? Image(
+                                              image: certtemp[index].image,
+                                              fit: BoxFit.cover,
+                                              height: size.height * 0.4,
+                                              width: size.width * 0.5,
+                                            )
+                                          : Container(),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ))
+                      : Expanded(
+                          child: GridView.builder(
+                              itemCount: certtemp.length,
+                              shrinkWrap: true,
+                              physics: const BouncingScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: size.width * 0.04,
+                                      mainAxisSpacing: size.height * 0.02,
+                                      mainAxisExtent: size.height * 0.4),
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (context, int index) {
+                                return Column(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          SwipeLeftAnimationRoute(
+                                            widget: CertificateFullview(
+                                              image: certtemp[index],
+                                              show: widget.isshow,
+                                              id: id.toString(),
+                                              scan: false,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        child: certtemp.isNotEmpty
+                                            ? Image(
+                                                image: certtemp[index].image,
+                                                fit: BoxFit.cover,
+                                                height: size.height * 0.4,
+                                                width: size.width * 0.5,
+                                              )
+                                            : Container(),
                                       ),
                                     ),
-                                  );
-                                },
-                                child: Container(
-                                  child: certtemp.isNotEmpty
-                                      ? Image(
-                                          image: certtemp[index].image,
-                                          fit: BoxFit.cover,
-                                          height: size.height * 0.4,
-                                          width: size.width * 0.5,
-                                        )
-                                      : Container(),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ))
+                                  ],
+                                );
+                              }),
+                        )
                   : Expanded(
-                      child: GridView.builder(
-                          itemCount: certtemp.length,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: size.width * 0.04,
-                                  mainAxisSpacing: size.height * 0.02,
-                                  mainAxisExtent: size.height * 0.4),
-                          scrollDirection: Axis.vertical,
-                          itemBuilder: (context, int index) {
-                            return Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      SwipeLeftAnimationRoute(
-                                        widget: CertificateFullview(
-                                          image: certtemp[index],
-                                          show: widget.isshow,
-                                          id: id.toString(),
-                                          scan: false,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    child: certtemp.isNotEmpty
-                                        ? Image(
-                                            image: certtemp[index].image,
-                                            fit: BoxFit.cover,
-                                            height: size.height * 0.4,
-                                            width: size.width * 0.5,
-                                          )
-                                        : Container(),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }),
-                    ):Expanded(
                       child: Center(
                         child: VariableText(
-                                text: "No certificate found!",
-                                fontcolor: HexColor(
-                                    primarycolor.fanCardTextColor.toString()),
-                                fontsize: size.height * 0.020,
-                                fontFamily: fontMedium,
-                              ),
+                          text: "No FanMatch found!",
+                          fontcolor: HexColor(
+                              primarycolor.fanCardTextColor.toString()),
+                          fontsize: size.height * 0.020,
+                          fontFamily: fontMedium,
+                        ),
                       ),
                     ),
               SizedBox(height: size.height * 0.02),
@@ -628,8 +512,8 @@ class _CertificatesScreenFanMatchState
                             context,
                             SwipeLeftAnimationRoute(
                                 widget: CertificateTypeScreen(
-                          isfanmatch: true,
-                          CertificateId: "",
+                              isfanmatch: true,
+                              CertificateId: "",
                             ))).then((value) {});
                       },
                       child: Container(

@@ -127,7 +127,7 @@ class _FanCardScreenState extends State<FanCardScreen> {
                             color: Theme.of(context).primaryColor,
                             borderRadius: BorderRadius.circular(50)),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding:  EdgeInsets.all(8.0),
                           child: Column(children: [
                             Stack(
                               children: [

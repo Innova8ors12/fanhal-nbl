@@ -86,22 +86,25 @@ class SuccessScreen extends StatelessWidget {
                       weight: FontWeight.w500,
                       txtColor: textColor1,
                       onTap: () {
-                        if (!isfanmatch) {
-                          Navigator.of(context).pop();
-                        }
+                        if (isfanmatch) {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            SwipeLeftAnimationRoute(
+                                widget: MainDashboard(isfanmatch:true)), (route) => route.isCurrent
+                        ); 
+                        }else{
+                            Navigator.of(context).pop();
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                         Navigator.of(context).pop(true);
-                        // Navigator.pushAndRemoveUntil(
-                        //     context,
-                        //     SwipeLeftAnimationRoute(
-                        //         widget: CertificatesScreen(isshow:true)), (route) => route.isCurrent
-                        // );
+                        
+                        }
+                       
                       },
                     ),
                     SizedBox(height: size.height * 0.02),
-                    type == "Digital"
+                   !isfanmatch? type == "Digital"
                         ? MyButton(
                             btnHeight: size.height * 0.055,
                             btnWidth: size.width * 0.60,
@@ -149,7 +152,7 @@ class SuccessScreen extends StatelessWidget {
                                   SwipeLeftAnimationRoute(
                                       widget: MyOrdersScreen()));
                             },
-                          ),
+                          ):SizedBox(),
                   ],
                 ),
               ),

@@ -473,7 +473,7 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                                         ? size.height * 0.325
                                                         : size.height * 0.2855,
                                                 right: widget.fanmatch
-                                                    ? size.width * 0.03
+                                                    ? size.width * 0.042
                                                     : size.width * 0.05,
                                                 left: widget.fanmatch
                                                     ? size.width * 0.33
@@ -528,10 +528,7 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                                                 .center,
                                                           ),
                                                           VariableText(
-                                                            text: userdata
-                                                                .username!
-                                                                .toUpperCase()
-                                                                .toString(),
+                                                            text: "@${userdata.username!.toUpperCase().toString()}",
                                                             fontcolor: widget
                                                                     .fanmatch
                                                                 ? textColorW
@@ -635,7 +632,7 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                 height: size.height * 0.45,
                                 child: Center(
                                   child: VariableText(
-                                    text: "No Certificate Found!!",
+                                    text:widget.fanmatch?"No FanMatch found!" :"No Certificates Found!",
                                     fontcolor: primaryColorW,
                                     fontsize: size.height * 0.018,
                                     fontFamily: fontMedium,
@@ -707,7 +704,7 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                 type: widget.type.toString(),
                                 id: certId.toString(),
                                 FanMatch: widget.fanmatch,
-                                userName: userdata.username.toString(),
+                                userName:  "@${userdata.username.toString()}",
                               )));
                         }
                       },

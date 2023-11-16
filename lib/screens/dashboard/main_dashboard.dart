@@ -12,7 +12,8 @@ import 'profile/profile_main_screen.dart';
 import 'social/social_home.dart';
 
 class MainDashboard extends StatefulWidget {
-  const MainDashboard({Key? key}) : super(key: key);
+  bool isfanmatch;
+ MainDashboard({Key? key,this.isfanmatch=false}) : super(key: key);
 
   @override
   State<MainDashboard> createState() => _MainDashboardState();
@@ -69,7 +70,7 @@ class _MainDashboardState extends State<MainDashboard>
     tabController = TabController(
         length: 5,
         animationDuration: const Duration(milliseconds: 200),
-        initialIndex: 2,
+        initialIndex:widget.isfanmatch? 1:2,
         vsync: this);
     tabController!.addListener(handleTabSelection);
   }
@@ -101,7 +102,9 @@ class _MainDashboardState extends State<MainDashboard>
             physics: const NeverScrollableScrollPhysics(),
             children: [
               DraftMainScreen(),
-              CertificateMainScreen(),
+              CertificateMainScreen(
+                
+              ),
               FanCardScreen(
                 onProfile: () {
                   tabController!.animateTo(3);

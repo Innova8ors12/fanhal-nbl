@@ -23,7 +23,8 @@ import 'no_certificate_Screen.dart';
 import 'no_fanlike_screen.dart';
 
 class CertificateMainScreen extends StatefulWidget {
-  const CertificateMainScreen({Key? key}) : super(key: key);
+  bool? isfanMatch;
+  CertificateMainScreen({Key? key, this.isfanMatch = false}) : super(key: key);
 
   @override
   State<CertificateMainScreen> createState() => _CertificateMainScreenState();
@@ -110,9 +111,20 @@ class _CertificateMainScreenState extends State<CertificateMainScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
-    tabController = TabController(length: 3, vsync: this);
-    tabViewController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 3, vsync: this,initialIndex: widget.isfanMatch! ? 1 : 0);
+    tabViewController = TabController(
+        length: 3, vsync: this, initialIndex: widget.isfanMatch! ? 1 : 0);
     _scrollController = ScrollController();
+    // if (!widget.isfanMatch!) {
+    //   tabViewController!.animateTo(1);
+    // }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    tabViewController!.dispose();
+    super.dispose();
   }
 
   @override

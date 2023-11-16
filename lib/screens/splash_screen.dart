@@ -260,7 +260,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Provider.of<UserProvider>(context, listen: false)
                 .setUser(userDetails);
             Navigator.pushReplacement(context,
-                SwipeLeftAnimationRoute(milliseconds: 250, widget: const MainDashboard()));
+                SwipeLeftAnimationRoute(milliseconds: 250, widget:  MainDashboard()));
           }
         } else {
           Fluttertoast.showToast(
