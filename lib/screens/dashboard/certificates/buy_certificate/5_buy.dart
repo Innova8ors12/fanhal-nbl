@@ -153,13 +153,19 @@ class _BuyScreenState extends State<BuyScreen> {
         widget.id.toString());
 
     // _pdfModel = PdfModel.fromJson();
-    certPdf = res['data'];
-    amount = res['amount'];
-    // amount=res['amount'];
-    setState(() {});
-    print("ye pdf hai $res['data']");
-    await pdftoimg(certPdf.toString());
-    setLoading(false);
+
+    if (res['status'] && res != null) {
+      certPdf = res['data'];
+      amount = res['amount'];
+      // amount=res['amount'];
+      setState(() {});
+      print("ye pdf hai $res['data']");
+      await pdftoimg(certPdf.toString());
+      setLoading(false);
+    } else {
+      customToast(res['msg']);
+      setLoading(false);
+    }
   }
 
   getCertiPdf() async {

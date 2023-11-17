@@ -87,72 +87,72 @@ class SuccessScreen extends StatelessWidget {
                       txtColor: textColor1,
                       onTap: () {
                         if (isfanmatch) {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            SwipeLeftAnimationRoute(
-                                widget: MainDashboard(isfanmatch:true)), (route) => route.isCurrent
-                        ); 
-                        }else{
-                            Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop(true);
-                        
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              SwipeLeftAnimationRoute(
+                                  widget: MainDashboard(isfanmatch: true)),
+                              (route) => route.isCurrent);
+                        } else {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop(true);
                         }
-                       
                       },
                     ),
                     SizedBox(height: size.height * 0.02),
-                   !isfanmatch? type == "Digital"
-                        ? MyButton(
-                            btnHeight: size.height * 0.055,
-                            btnWidth: size.width * 0.60,
-                            btnColor: Theme.of(context).primaryColor,
-                            borderColor: Theme.of(context).primaryColor,
-                            btnRadius: 200,
-                            btnTxt: "Send as a Pic",
-                            fontSize: size.height * 0.018,
-                            fontFamily: fontSemiBold,
-                            weight: FontWeight.w500,
-                            txtColor: Theme.of(context).iconTheme.color,
-                            onTap: () {
-                              if (!isfanmatch) {
-                                Navigator.of(context).pop();
-                              }
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop(true);
-                              // Navigator.push(
-                              //     context,
-                              //     SwipeLeftAnimationRoute(
-                              //         widget: MyOrdersScreen()));
-                            },
-                          )
-                        : MyButton(
-                            btnHeight: size.height * 0.055,
-                            btnWidth: size.width * 0.60,
-                            btnColor: Theme.of(context).primaryColor,
-                            borderColor: Theme.of(context).primaryColor,
-                            btnRadius: 200,
-                            btnTxt: "View Status Order",
-                            fontSize: size.height * 0.018,
-                            fontFamily: fontSemiBold,
-                            weight: FontWeight.w500,
-                            txtColor: Theme.of(context).iconTheme.color,
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop(true);
-                              Navigator.push(
-                                  context,
-                                  SwipeLeftAnimationRoute(
-                                      widget: MyOrdersScreen()));
-                            },
-                          ):SizedBox(),
+                    !isfanmatch
+                        ? type == "Digital"
+                            ? MyButton(
+                                btnHeight: size.height * 0.055,
+                                btnWidth: size.width * 0.60,
+                                btnColor: Theme.of(context).primaryColor,
+                                borderColor: Theme.of(context).primaryColor,
+                                btnRadius: 200,
+                                btnTxt: "Send as a Pic",
+                                fontSize: size.height * 0.018,
+                                fontFamily: fontSemiBold,
+                                weight: FontWeight.w500,
+                                txtColor: Theme.of(context).iconTheme.color,
+                                onTap: () {
+                                  if (!isfanmatch) {
+                                    Navigator.of(context).pop();
+                                  }
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop(true);
+                                  // Navigator.push(
+                                  //     context,
+                                  //     SwipeLeftAnimationRoute(
+                                  //         widget: MyOrdersScreen()));
+                                },
+                              )
+                            : MyButton(
+                                btnHeight: size.height * 0.055,
+                                btnWidth: size.width * 0.60,
+                                btnColor: Theme.of(context).primaryColor,
+                                borderColor: Theme.of(context).primaryColor,
+                                btnRadius: 200,
+                                btnTxt: "View Status Order",
+                                fontSize: size.height * 0.018,
+                                fontFamily: fontSemiBold,
+                                weight: FontWeight.w500,
+                                txtColor: Theme.of(context).iconTheme.color,
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop(true);
+                                  Navigator.push(
+                                      context,
+                                      SwipeLeftAnimationRoute(
+                                          widget: MyOrdersScreen()));
+                                },
+                              )
+                        : SizedBox(),
                   ],
                 ),
               ),

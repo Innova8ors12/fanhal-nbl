@@ -103,7 +103,7 @@ class _MainDashboardState extends State<MainDashboard>
             children: [
               DraftMainScreen(),
               CertificateMainScreen(
-                
+                isfanMatch: widget.isfanmatch,
               ),
               FanCardScreen(
                 onProfile: () {

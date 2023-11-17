@@ -25,11 +25,16 @@ import '../../../widgets/style.dart';
 class CertificateFullview extends StatefulWidget {
   final bool? scan;
   final bool? show;
-  final  String?imageofcert;
+  final String? imageofcert;
   final Image? image;
   final String? id;
   const CertificateFullview(
-      {Key? key, this.image,this.imageofcert, required this.scan, required this.show, this.id})
+      {Key? key,
+      this.image,
+      this.imageofcert,
+      required this.scan,
+      required this.show,
+      this.id})
       : super(key: key);
 
   @override
@@ -115,50 +120,41 @@ class _CertificateFullviewState extends State<CertificateFullview> {
   }
 
   GlobalKey _globalKey = GlobalKey();
-  Future<void> saveAsPdf({
-    bool share = false,
-  }) async {
-    // setLoading(true);
-    print("Save PDF");
-    if (!(await Permission.storage.isGranted)) {
-      await Permission.storage.request();
-    }
-    try {
-      // Get the temporary directory using path_provider package.
-      Directory? documentsDirectory = await getApplicationDocumentsDirectory();
-      String documentPath = documentsDirectory!.path;
-      String path = '${documentPath}/cert.pdf';
-      final file = File(path);
-
-      // Create a PDF document.
-      final pdf = pw.Document();
-
-      // Convert the widget to an image using the `RepaintBoundary` widget.
-      final image = await _getImageFromWidget();
-
-      // Add the image to the PDF document.
-      pdf.addPage(pw.Page(
-          build: (pw.Context context) => pw.Center(child: pw.Image(image))));
-
-      // Save the PDF document to a file.
-      await file.writeAsBytes(await pdf.save());
-      if (share) {
-        setLoading(false);
-        await SystemChannels.platform.invokeMethod('FlutterLoader.forceLoad');
-        final _result = await OpenFile.open(path);
-        print(_result.message);
-      } else {
-        setLoading(false);
-        await OpenFile.open(path);
-        // final result = ;
-        // print(result);
-      }
-      setLoading(false);
-    } catch (e) {
-      print('Error: $e');
-    }
+ Future<void> saveAsImage(
+  bool share
+) async {
+  if (!(await Permission.storage.isGranted)) {
+    await Permission.storage.request();
   }
 
+  try {
+    Directory? documentsDirectory = await getApplicationDocumentsDirectory();
+    String documentPath = documentsDirectory!.path;
+    String path = '$documentPath/cert.png';
+
+    final image = await _getImageFromWidget();
+
+    final imageFile = File(path);
+    await imageFile.writeAsBytes(Uint8List.fromList(image));
+
+    if (share) {
+      await SystemChannels.platform.invokeMethod('FlutterLoader.forceLoad');
+      final result = await OpenFile.open(path);
+      print(result.message);
+    } else {
+      await OpenFile.open(path);
+    }
+  } catch (e) {
+    print('Error: $e');
+  }
+}
+
+Future<Uint8List> _getImageFromWidget() async {
+  RenderRepaintBoundary boundary = _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+  ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+  ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+  return byteData!.buffer.asUint8List();
+}
   Directory? _appDocDir;
   Future<Directory?> getApplicationDocumentsDirectory() async {
     if (_appDocDir != null) {
@@ -172,22 +168,22 @@ class _CertificateFullviewState extends State<CertificateFullview> {
     return _appDocDir;
   }
 
-  Future<pw.MemoryImage> _getImageFromWidget() async {
-    // Get the RenderObject of the widget.
-    RenderRepaintBoundary? boundary =
-        _globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+  // Future<pw.MemoryImage> _getImageFromWidget() async {
+  //   // Get the RenderObject of the widget.
+  //   RenderRepaintBoundary? boundary =
+  //       _globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
 
-    // Create an image from the RenderObject.
-    final image = await boundary?.toImage(pixelRatio: 4.0);
+  //   // Create an image from the RenderObject.
+  //   final image = await boundary?.toImage(pixelRatio: 4.0);
 
-    // Convert the image to PNG format.
-    final pngBytes = await image?.toByteData(format: ui.ImageByteFormat.png);
+  //   // Convert the image to PNG format.
+  //   final pngBytes = await image?.toByteData(format: ui.ImageByteFormat.png);
 
-    // Convert the PNG bytes to PDF image format.
-    final pdfImage = pw.MemoryImage(pngBytes!.buffer.asUint8List());
+  //   // Convert the PNG bytes to PDF image format.
+  //   final pdfImage = pw.MemoryImage(pngBytes!.buffer.asUint8List());
 
-    return pdfImage;
-  }
+  //   return pdfImage;
+  // }
 
   deletePost() async {
     setLoading(true);
@@ -208,9 +204,9 @@ class _CertificateFullviewState extends State<CertificateFullview> {
     // TODO: implement initState
     super.initState();
 
-    if(widget.scan!){
-pdftoimg(widget.imageofcert!);
-    } 
+    if (widget.scan!) {
+      pdftoimg(widget.imageofcert!);
+    }
   }
 
   @override
@@ -296,13 +292,12 @@ pdftoimg(widget.imageofcert!);
                                         onLongPress: () {
                                           _showDialog();
                                         },
-                                        child:image1!=null?
-                                           Image(
-                                              image:image1!.image,
-                                              fit: BoxFit.cover,
-                                            
-                                            )
-                                          : Container()))
+                                        child: image1 != null
+                                            ? Image(
+                                                image: image1!.image,
+                                                fit: BoxFit.cover,
+                                              )
+                                            : Container()))
                                 : InkWell(
                                     onLongPress: () {
                                       _showDialog();
@@ -311,11 +306,10 @@ pdftoimg(widget.imageofcert!);
                                       key: widget.scan!
                                           ? GlobalKey()
                                           : _globalKey,
-                                      child:  widget.image!=null?
-                                           Image(
-                                              image:widget.image!.image,
+                                      child: widget.image != null
+                                          ? Image(
+                                              image: widget.image!.image,
                                               fit: BoxFit.cover,
-                                            
                                             )
                                           : Container(),
                                     ),
@@ -333,7 +327,7 @@ pdftoimg(widget.imageofcert!);
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    saveAsPdf();
+                                    saveAsImage(false);
                                   },
                                   child: Image.asset(
                                     "assets/icons/ic_download.png",
@@ -363,7 +357,7 @@ pdftoimg(widget.imageofcert!);
                                 SizedBox(width: size.width * 0.04),
                                 InkWell(
                                     onTap: () {
-                                      saveAsPdf();
+                                      saveAsImage( true);
                                     },
                                     child: Icon(Icons.share, color: textColorW))
                               ],
@@ -377,7 +371,7 @@ pdftoimg(widget.imageofcert!);
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    saveAsPdf();
+                                    saveAsImage(false);
                                   },
                                   child: Image.asset(
                                     "assets/icons/ic_download.png",
@@ -404,7 +398,7 @@ pdftoimg(widget.imageofcert!);
                                 SizedBox(width: size.width * 0.04),
                                 InkWell(
                                     onTap: () {
-                                      saveAsPdf();
+                                      saveAsImage(true);
                                     },
                                     child: Icon(Icons.share, color: textColorW))
                               ],
@@ -418,7 +412,7 @@ pdftoimg(widget.imageofcert!);
                           children: [
                             InkWell(
                                 onTap: () {
-                                  saveAsPdf();
+                                  saveAsImage(true);
                                 },
                                 child: Icon(Icons.share, color: textColorW))
                           ],

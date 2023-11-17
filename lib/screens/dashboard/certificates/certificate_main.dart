@@ -111,7 +111,8 @@ class _CertificateMainScreenState extends State<CertificateMainScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
-    tabController = TabController(length: 3, vsync: this,initialIndex: widget.isfanMatch! ? 1 : 0);
+    tabController = TabController(
+        length: 3, vsync: this, initialIndex: widget.isfanMatch! ? 1 : 0);
     tabViewController = TabController(
         length: 3, vsync: this, initialIndex: widget.isfanMatch! ? 1 : 0);
     _scrollController = ScrollController();
