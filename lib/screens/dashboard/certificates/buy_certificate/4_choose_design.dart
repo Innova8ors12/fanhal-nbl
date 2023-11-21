@@ -408,7 +408,7 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                           EdgeInsets.symmetric(horizontal: size.width * 0.20),
                       child: MyRoundTextField(
                         text: "Enter name",
-                        lenght: widget.fanmatch ? 12 : 20,
+                        lenght: widget.fanmatch ? 18 : 20,
                         fontColor: textColor1,
                         cont: _certificateName,
                         hintColor: textColor3,
@@ -507,8 +507,14 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                                                     : textColorB,
                                                             fontsize: widget
                                                                     .fanmatch
-                                                                ? size.height *
-                                                                    0.010
+                                                                ? _certificateName
+                                                                            .text
+                                                                            .length >
+                                                                        12
+                                                                    ? size.height *
+                                                                        0.007
+                                                                    : size.height *
+                                                                        0.010
                                                                 : widget.type ==
                                                                         "Digital"
                                                                     ? size.height *
@@ -533,7 +539,7 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                                           ),
                                                           VariableText(
                                                             text:
-                                                                "@${userdata.username!.toUpperCase().toString()}",
+                                                                "@${userdata.username!.toString()}",
                                                             fontcolor: widget
                                                                     .fanmatch
                                                                 ? HexColor(TeamCertificate[
@@ -549,7 +555,8 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                                                     : textColorB,
                                                             fontsize: widget
                                                                     .fanmatch
-                                                                ? size.height *
+                                                                ?_certificateName.text.length>12? size.height *
+                                                                  0.007: size.height *
                                                                     0.008
                                                                 : widget.type ==
                                                                         "Digital"
@@ -643,7 +650,8 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                     text: widget.fanmatch
                                         ? "No FanMatch found!"
                                         : "No Certificates Found!",
-                                    fontcolor: primaryColorW,
+                                    fontcolor: HexColor(
+                                        color.secondaryTextColor.toString()),
                                     fontsize: size.height * 0.018,
                                     fontFamily: fontMedium,
                                     max_lines: 1,
@@ -669,7 +677,8 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                         //   )
                         : VariableText(
                             text: "NO MORE Found!",
-                            fontcolor: Theme.of(context).primaryColor,
+                            fontcolor:
+                                HexColor(color.secondaryTextColor.toString()),
                             fontsize: size.height * 0.015,
                             fontFamily: fontSemiBold,
                             max_lines: 1,

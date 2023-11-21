@@ -80,7 +80,7 @@ class SuccessScreen extends StatelessWidget {
                       btnColor: primaryColorW,
                       borderColor: primaryColorW,
                       btnRadius: 200,
-                      btnTxt: "View my Certificates",
+                      btnTxt:isfanmatch?"View my FanMatch": "View my Certificates",
                       fontSize: size.height * 0.018,
                       fontFamily: fontSemiBold,
                       weight: FontWeight.w500,

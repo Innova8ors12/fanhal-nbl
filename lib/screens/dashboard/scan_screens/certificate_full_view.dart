@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -18,7 +19,7 @@ import 'package:native_pdf_renderer/native_pdf_renderer.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-
+import 'package:image/image.dart' as img;
 import '../../../widgets/common.dart';
 import '../../../widgets/style.dart';
 
@@ -120,52 +121,57 @@ class _CertificateFullviewState extends State<CertificateFullview> {
   }
 
   GlobalKey _globalKey = GlobalKey();
- Future<void> saveAsImage(
-  bool share
-) async {
-  if (!(await Permission.storage.isGranted)) {
-    await Permission.storage.request();
+  Future<void> saveAsImage(bool share) async {
+    if (!(await Permission.storage.isGranted)) {
+      await Permission.storage.request();
+    }
+
+    try {
+      Directory? documentsDirectory = await getApplicationDocumentsDirectory();
+      String documentPath = documentsDirectory.path;
+      String path = '$documentPath/cert.png';
+
+      final image = await _getImageFromWidget();
+
+      final imageFile = File(path);
+      await imageFile.writeAsBytes(Uint8List.fromList(image));
+
+      if (share) {
+        await SystemChannels.platform.invokeMethod('FlutterLoader.forceLoad');
+        final result = await OpenFile.open(path);
+        print(result.message);
+      } else {
+        await OpenFile.open(path);
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
-  try {
-    Directory? documentsDirectory = await getApplicationDocumentsDirectory();
-    String documentPath = documentsDirectory!.path;
-    String path = '$documentPath/cert.png';
+  Future<Uint8List> _getImageFromWidget() async {
+    RenderRepaintBoundary boundary =
+        _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
 
-    final image = await _getImageFromWidget();
+    // Set the desired width and height
+    double targetWidth = 1080.0;
+    double targetHeight = 1920.0;
 
-    final imageFile = File(path);
-    await imageFile.writeAsBytes(Uint8List.fromList(image));
+    // Capture the image
+    ui.Image image = await boundary.toImage();
+    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    Uint8List byteList = byteData!.buffer.asUint8List();
 
-    if (share) {
-      await SystemChannels.platform.invokeMethod('FlutterLoader.forceLoad');
-      final result = await OpenFile.open(path);
-      print(result.message);
-    } else {
-      await OpenFile.open(path);
-    }
-  } catch (e) {
-    print('Error: $e');
-  }
-}
+    // Decode the image using the image package
+    img.Image decodedImage = img.decodeImage(byteList)!;
 
-Future<Uint8List> _getImageFromWidget() async {
-  RenderRepaintBoundary boundary = _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-  ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-  ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-  return byteData!.buffer.asUint8List();
-}
-  Directory? _appDocDir;
-  Future<Directory?> getApplicationDocumentsDirectory() async {
-    if (_appDocDir != null) {
-      return _appDocDir;
-    }
-    if (Platform.isAndroid) {
-      _appDocDir = await getExternalStorageDirectory();
-    } else {
-      _appDocDir = await getApplicationDocumentsDirectory();
-    }
-    return _appDocDir;
+    // Resize the image
+    img.Image resizedImage = img.copyResize(decodedImage,
+        width: targetWidth.toInt(), height: targetHeight.toInt());
+
+    // Encode the resized image back to Uint8List
+    Uint8List resizedByteList = Uint8List.fromList(img.encodePng(resizedImage));
+
+    return resizedByteList;
   }
 
   // Future<pw.MemoryImage> _getImageFromWidget() async {
@@ -357,7 +363,7 @@ Future<Uint8List> _getImageFromWidget() async {
                                 SizedBox(width: size.width * 0.04),
                                 InkWell(
                                     onTap: () {
-                                      saveAsImage( true);
+                                      saveAsImage(true);
                                     },
                                     child: Icon(Icons.share, color: textColorW))
                               ],

@@ -25,9 +25,9 @@ class _MainDashboardState extends State<MainDashboard>
 
   var mainTab = {
     "tabs": [
-      {"title": "Draft", "icon": "assets/icons/ic_bottom_draft.png"},
+      {"title": "Market", "icon": "assets/icons/ic_bottom_draft.png"},
       {
-        "title": "Certificates",
+        "title": "Collectibles",
         "icon": "assets/icons/ic_bottom_certificate.png"
       },
       {"title": "Star", "icon": "assets/icons/ic_bottom_star.png"},

@@ -101,7 +101,7 @@ class _CertificatesScreenFanMatchState
       // nationalId = leagueModel!.data![1]!.id.toString();
       setState(() {});
     }
-    
+
     setLoading(false);
   }
 
@@ -498,7 +498,7 @@ class _CertificatesScreenFanMatchState
                         child: VariableText(
                           text: "No FanMatch found!",
                           fontcolor: HexColor(
-                              primarycolor.fanCardTextColor.toString()),
+                              primarycolor.secondaryTextColor.toString()),
                           fontsize: size.height * 0.020,
                           fontFamily: fontMedium,
                         ),

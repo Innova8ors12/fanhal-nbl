@@ -349,51 +349,60 @@ class _BuyScreenState extends State<BuyScreen> {
                                     fontFamily: fontMedium,
                                     max_lines: 1),
                                 SizedBox(width: size.width * 0.02),
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: size.width * 0.03,
-                                      vertical: size.height * 0.009),
-                                  decoration: BoxDecoration(
-                                      color: primaryColorW,
-                                      borderRadius: BorderRadius.circular(200)),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            count++;
-                                          });
-                                        },
-                                        child: Icon(Icons.add,
-                                            color: primaryColorB,
-                                            size: size.height * 0.02),
-                                      ),
-                                      Padding(
+                                widget.FanMatch
+                                    ? VariableText(
+                                        text: "1",
+                                        fontcolor: primaryColorW,
+                                        fontsize: size.height * 0.014,
+                                        fontFamily: fontMedium,
+                                        max_lines: 1)
+                                    : Container(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: size.width * 0.05),
-                                        child: VariableText(
-                                            text: count.toString(),
-                                            fontcolor: primaryColorB,
-                                            fontsize: size.height * 0.016,
-                                            fontFamily: fontMedium,
-                                            max_lines: 1),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          if (count > 1) {
-                                            setState(() {
-                                              count--;
-                                            });
-                                          }
-                                        },
-                                        child: Icon(Icons.remove,
-                                            color: primaryColorB,
-                                            size: size.height * 0.02),
-                                      ),
-                                    ],
-                                  ),
-                                )
+                                            horizontal: size.width * 0.03,
+                                            vertical: size.height * 0.009),
+                                        decoration: BoxDecoration(
+                                            color: primaryColorW,
+                                            borderRadius:
+                                                BorderRadius.circular(200)),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  count++;
+                                                });
+                                              },
+                                              child: Icon(Icons.add,
+                                                  color: primaryColorB,
+                                                  size: size.height * 0.02),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal:
+                                                      size.width * 0.05),
+                                              child: VariableText(
+                                                  text: count.toString(),
+                                                  fontcolor: primaryColorB,
+                                                  fontsize: size.height * 0.016,
+                                                  fontFamily: fontMedium,
+                                                  max_lines: 1),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                if (count > 1) {
+                                                  setState(() {
+                                                    count--;
+                                                  });
+                                                }
+                                              },
+                                              child: Icon(Icons.remove,
+                                                  color: primaryColorB,
+                                                  size: size.height * 0.02),
+                                            ),
+                                          ],
+                                        ),
+                                      )
                               ],
                             )
                           : Container(),

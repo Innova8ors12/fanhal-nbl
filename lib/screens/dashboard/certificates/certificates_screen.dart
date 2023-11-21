@@ -94,7 +94,7 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
       // nationalId = leagueModel!.data![1]!.id.toString();
       setState(() {});
     }
-  
+
     setLoading(false);
   }
 
@@ -485,112 +485,116 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
               ),
 
               SizedBox(height: size.height * 0.02),
-            certtemp.isNotEmpty?  widget.isshow
-                  ? Expanded(
-                      child: RefreshIndicator(
-                      onRefresh: () async {
-                        // Call your function here
-                        getshowcasecertificate(
-                            selectedType == "WallArt" ? "art" : selectedType!);
-                      },
-                      child: GridView.builder(
-                        itemCount: certtemp.length,
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: size.width * 0.04,
-                          mainAxisSpacing: size.height * 0.02,
-                          mainAxisExtent: size.height * 0.4,
-                        ),
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context, int index) {
-                          int indexx = index;
+              certtemp.isNotEmpty
+                  ? widget.isshow
+                      ? Expanded(
+                          child: RefreshIndicator(
+                          onRefresh: () async {
+                            // Call your function here
+                            getshowcasecertificate(selectedType == "WallArt"
+                                ? "art"
+                                : selectedType!);
+                          },
+                          child: GridView.builder(
+                            itemCount: certtemp.length,
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: size.width * 0.04,
+                              mainAxisSpacing: size.height * 0.02,
+                              mainAxisExtent: size.height * 0.4,
+                            ),
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, int index) {
+                              int indexx = index;
 
-                          return Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    SwipeLeftAnimationRoute(
-                                      widget: CertificateFullview(
-                                        image: certtemp[index],
-                                        scan: false,
-                                        show: widget.isshow,
-                                        id: "1",
+                              return Column(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        SwipeLeftAnimationRoute(
+                                          widget: CertificateFullview(
+                                            image: certtemp[index],
+                                            scan: false,
+                                            show: widget.isshow,
+                                            id: "1",
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      child: certtemp.isNotEmpty
+                                          ? Image(
+                                              image: certtemp[index].image,
+                                              fit: BoxFit.cover,
+                                              height: size.height * 0.4,
+                                              width: size.width * 0.5,
+                                            )
+                                          : Container(),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ))
+                      : Expanded(
+                          child: GridView.builder(
+                              itemCount: certtemp.length,
+                              shrinkWrap: true,
+                              physics: const BouncingScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: size.width * 0.04,
+                                      mainAxisSpacing: size.height * 0.02,
+                                      mainAxisExtent: size.height * 0.4),
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (context, int index) {
+                                return Column(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          SwipeLeftAnimationRoute(
+                                            widget: CertificateFullview(
+                                              image: certtemp[index],
+                                              show: widget.isshow,
+                                              id: id.toString(),
+                                              scan: false,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        child: certtemp.isNotEmpty
+                                            ? Image(
+                                                image: certtemp[index].image,
+                                                fit: BoxFit.cover,
+                                                height: size.height * 0.4,
+                                                width: size.width * 0.5,
+                                              )
+                                            : Container(),
                                       ),
                                     ),
-                                  );
-                                },
-                                child: Container(
-                                  child: certtemp.isNotEmpty
-                                      ? Image(
-                                          image: certtemp[index].image,
-                                          fit: BoxFit.cover,
-                                          height: size.height * 0.4,
-                                          width: size.width * 0.5,
-                                        )
-                                      : Container(),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ))
+                                  ],
+                                );
+                              }),
+                        )
                   : Expanded(
-                      child: GridView.builder(
-                          itemCount: certtemp.length,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: size.width * 0.04,
-                                  mainAxisSpacing: size.height * 0.02,
-                                  mainAxisExtent: size.height * 0.4),
-                          scrollDirection: Axis.vertical,
-                          itemBuilder: (context, int index) {
-                            return Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      SwipeLeftAnimationRoute(
-                                        widget: CertificateFullview(
-                                          image: certtemp[index],
-                                          show: widget.isshow,
-                                          id: id.toString(),
-                                          scan: false,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    child: certtemp.isNotEmpty
-                                        ? Image(
-                                            image: certtemp[index].image,
-                                            fit: BoxFit.cover,
-                                            height: size.height * 0.4,
-                                            width: size.width * 0.5,
-                                          )
-                                        : Container(),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }),
-                    ):Expanded(
                       child: Center(
                         child: VariableText(
-                                text: "No certificate found!",
-                                fontcolor: HexColor(
-                                    primarycolor.fanCardTextColor.toString()),
-                                fontsize: size.height * 0.020,
-                                fontFamily: fontMedium,
-                              ),
+                          text: "No certificate found!",
+                          fontcolor:
+                              HexColor(primarycolor.secondaryTextColor.toString()),
+                          fontsize: size.height * 0.020,
+                          fontFamily: fontMedium,
+                        ),
                       ),
                     ),
               SizedBox(height: size.height * 0.02),
