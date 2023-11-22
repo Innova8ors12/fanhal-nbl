@@ -461,7 +461,7 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                                     ? Image(
                                                         image:
                                                             certtemp[i].image,
-                                                        fit: BoxFit.cover,
+                                                        fit: BoxFit.contain,
                                                         height:
                                                             size.height * 0.5,
                                                       )
@@ -469,7 +469,7 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                               ),
                                               Positioned(
                                                 top: widget.fanmatch
-                                                    ? size.height * 0.43
+                                                    ? size.height * 0.4225
                                                     : widget.type == "Digital"
                                                         ? size.height * 0.325
                                                         : size.height * 0.2855,
