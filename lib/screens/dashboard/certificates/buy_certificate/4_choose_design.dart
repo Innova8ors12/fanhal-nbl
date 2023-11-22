@@ -469,12 +469,12 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                               ),
                                               Positioned(
                                                 top: widget.fanmatch
-                                                    ? size.height * 0.4
+                                                    ? size.height * 0.43
                                                     : widget.type == "Digital"
                                                         ? size.height * 0.325
                                                         : size.height * 0.2855,
                                                 right: widget.fanmatch
-                                                    ? size.width * 0.042
+                                                    ? size.width * 0.02
                                                     : size.width * 0.05,
                                                 left: widget.fanmatch
                                                     ? size.width * 0.33
@@ -512,9 +512,9 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                                                             .length >
                                                                         12
                                                                     ? size.height *
-                                                                        0.007
+                                                                        0.008
                                                                     : size.height *
-                                                                        0.010
+                                                                        0.011
                                                                 : widget.type ==
                                                                         "Digital"
                                                                     ? size.height *
@@ -555,9 +555,14 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                                                     : textColorB,
                                                             fontsize: widget
                                                                     .fanmatch
-                                                                ?_certificateName.text.length>12? size.height *
-                                                                  0.007: size.height *
-                                                                    0.008
+                                                                ? _certificateName
+                                                                            .text
+                                                                            .length >
+                                                                        12
+                                                                    ? size.height *
+                                                                        0.0085
+                                                                    : size.height *
+                                                                        0.009
                                                                 : widget.type ==
                                                                         "Digital"
                                                                     ? size.height *

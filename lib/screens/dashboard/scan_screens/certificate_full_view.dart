@@ -323,6 +323,9 @@ class _CertificateFullviewState extends State<CertificateFullview> {
                           ),
                   ],
                 ),
+                SizedBox(
+                  height: size.height * 0.02,
+                ),
                 widget.show!
                     ? widget.scan!
                         ? Padding(

@@ -409,7 +409,7 @@ class _CertificatesScreenFanMatchState
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              crossAxisSpacing: size.width * 0.04,
+                              crossAxisSpacing: size.width * 0.02,
                               mainAxisSpacing: size.height * 0.02,
                               mainAxisExtent: size.height * 0.4,
                             ),
@@ -433,16 +433,14 @@ class _CertificatesScreenFanMatchState
                                         ),
                                       );
                                     },
-                                    child: Container(
-                                      child: certtemp.isNotEmpty
-                                          ? Image(
-                                              image: certtemp[index].image,
-                                              fit: BoxFit.cover,
-                                              height: size.height * 0.4,
-                                              width: size.width * 0.5,
-                                            )
-                                          : Container(),
-                                    ),
+                                    child: certtemp.isNotEmpty
+                                        ? Image(
+                                            image: certtemp[index].image,
+                                            fit: BoxFit.contain,
+                                            height: size.height * 0.4,
+                                            width: size.width,
+                                          )
+                                        : Container(),
                                   ),
                                 ],
                               );
