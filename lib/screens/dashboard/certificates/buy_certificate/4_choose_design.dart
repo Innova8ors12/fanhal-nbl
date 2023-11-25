@@ -469,7 +469,7 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                               ),
                                               Positioned(
                                                 top: widget.fanmatch
-                                                    ? size.height * 0.4225
+                                                    ? size.height * 0.41
                                                     : widget.type == "Digital"
                                                         ? size.height * 0.325
                                                         : size.height * 0.2855,

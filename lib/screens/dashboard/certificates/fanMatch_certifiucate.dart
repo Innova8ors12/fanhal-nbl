@@ -193,16 +193,29 @@ class _CertificatesScreenFanMatchState
 
   Future pdftoimg(String pdf) async {
     try {
+      // Open the PDF document from the provided URL
       final document = await PdfDocument.openData(InternetFile.get(pdf));
+
+      // Get the first page of the document
       final page = await document.getPage(1);
 
+      // Specify the desired dimensions (Height: 1920 px, Width: 1080 px)0
+      final int desiredHeight = 1920;
+      final int desiredWidth = 1080;
+
+      // Render the page as an image with the specified dimensions
       final pageImage = await page.render(
-          width: page.width,
-          height: page.height,
+          width: desiredWidth.toDouble(),
+          height: desiredHeight.toDouble(),
           format: PdfPageImageFormat.png);
+
+      // Close the page after rendering
       await page.close();
+
+      // Add the rendered image to the 'certtemp' list
       certtemp.add(Image.memory(pageImage!.bytes));
     } on PlatformException catch (error) {
+      // Handle any platform-specific exceptions
       print("@@: " + error.details.toString());
     }
   }
@@ -409,9 +422,9 @@ class _CertificatesScreenFanMatchState
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              crossAxisSpacing: size.width * 0.02,
-                              mainAxisSpacing: size.height * 0.02,
-                              mainAxisExtent: size.height * 0.4,
+                              crossAxisSpacing: size.width * 0.03,
+                              mainAxisSpacing: size.height * 0.01,
+                              mainAxisExtent: size.height * 0.38,
                             ),
                             scrollDirection: Axis.vertical,
                             itemBuilder: (context, int index) {
@@ -437,8 +450,9 @@ class _CertificatesScreenFanMatchState
                                         ? Image(
                                             image: certtemp[index].image,
                                             fit: BoxFit.contain,
-                                            height: size.height * 0.4,
-                                            width: size.width,
+                                            // height: size.height * 0.4,
+                                            //   width: size.width * 0.5,
+                                            // width: size.width,
                                           )
                                         : Container(),
                                   ),

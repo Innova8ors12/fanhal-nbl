@@ -316,13 +316,21 @@ class _BuyScreenState extends State<BuyScreen> {
                                             )),
                                   if (cert != null)
                                     Positioned(
-                                        top: size.height * 0.07,
-                                        bottom: size.height * 0.01,
-                                        left: size.width * 0.24,
-                                        right: size.width * 0.24,
-                                        child: Image(
-                                            image: cert!.image,
-                                            fit: BoxFit.fitWidth))
+                                      top: size.height * 0.02, 
+                                      child: Padding(
+                                        padding:  EdgeInsets.all(size.height*0.05),
+                                        child: Container(
+                                          height: size.height*0.5,
+                                          width: size.width*0.8,
+                                          child: Center(
+                                            child: Image(
+                                                  image: cert!.image,
+                                                  
+                                                  fit: BoxFit.contain),
+                                          ),
+                                        ),
+                                      ),
+                                    )
                                   else
                                     Container()
                                 ],

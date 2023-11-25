@@ -148,31 +148,29 @@ class _CertificateFullviewState extends State<CertificateFullview> {
     }
   }
 
-  Future<Uint8List> _getImageFromWidget() async {
-    RenderRepaintBoundary boundary =
-        _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+   Future<Uint8List> _getImageFromWidget() async {
+    try {
+      RenderRepaintBoundary boundary = _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
 
-    // Set the desired width and height
-    double targetWidth = 1080.0;
-    double targetHeight = 1920.0;
+      // Set the desired pixel ratio
+      double pixelRatio = 3.0; // Change this if necessary, but 1.0 should maintain original size
 
-    // Capture the image
-    ui.Image image = await boundary.toImage();
-    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    Uint8List byteList = byteData!.buffer.asUint8List();
+      // Capture the image with increased pixel ratio
+      ui.Image image = await boundary.toImage(pixelRatio: pixelRatio);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      Uint8List byteList = byteData!.buffer.asUint8List();
 
-    // Decode the image using the image package
-    img.Image decodedImage = img.decodeImage(byteList)!;
+      // Convert the image to JPEG format with higher quality
+      img.Image decodedImage = img.decodeImage(byteList)!;
+      Uint8List resizedByteList = Uint8List.fromList(img.encodeJpg(decodedImage, quality: 100));
 
-    // Resize the image
-    img.Image resizedImage = img.copyResize(decodedImage,
-        width: targetWidth.toInt(), height: targetHeight.toInt());
-
-    // Encode the resized image back to Uint8List
-    Uint8List resizedByteList = Uint8List.fromList(img.encodePng(resizedImage));
-
-    return resizedByteList;
+      return resizedByteList;
+    } catch (e) {
+      print('Error capturing and processing image: $e');
+      rethrow; // Rethrow the error to propagate it further if needed
+    }
   }
+
 
   // Future<pw.MemoryImage> _getImageFromWidget() async {
   //   // Get the RenderObject of the widget.
