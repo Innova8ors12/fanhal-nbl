@@ -148,21 +148,25 @@ class _CertificateFullviewState extends State<CertificateFullview> {
     }
   }
 
-   Future<Uint8List> _getImageFromWidget() async {
+  Future<Uint8List> _getImageFromWidget() async {
     try {
-      RenderRepaintBoundary boundary = _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      RenderRepaintBoundary boundary = _globalKey.currentContext!
+          .findRenderObject() as RenderRepaintBoundary;
 
       // Set the desired pixel ratio
-      double pixelRatio = 3.0; // Change this if necessary, but 1.0 should maintain original size
+      double pixelRatio =
+          3.0; // Change this if necessary, but 1.0 should maintain original size
 
       // Capture the image with increased pixel ratio
       ui.Image image = await boundary.toImage(pixelRatio: pixelRatio);
-      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      ByteData? byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
       Uint8List byteList = byteData!.buffer.asUint8List();
 
       // Convert the image to JPEG format with higher quality
       img.Image decodedImage = img.decodeImage(byteList)!;
-      Uint8List resizedByteList = Uint8List.fromList(img.encodeJpg(decodedImage, quality: 100));
+      Uint8List resizedByteList =
+          Uint8List.fromList(img.encodeJpg(decodedImage, quality: 100));
 
       return resizedByteList;
     } catch (e) {
@@ -170,7 +174,6 @@ class _CertificateFullviewState extends State<CertificateFullview> {
       rethrow; // Rethrow the error to propagate it further if needed
     }
   }
-
 
   // Future<pw.MemoryImage> _getImageFromWidget() async {
   //   // Get the RenderObject of the widget.
