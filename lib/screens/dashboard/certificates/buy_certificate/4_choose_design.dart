@@ -454,27 +454,30 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                           });
                                         },
                                         child: Container(
+                                          height: size.height * 0.5,
+                                          width: size.width * 0.50,
                                           child: Stack(
                                             children: [
-                                              Positioned.fill(
-                                                child: certtemp.isNotEmpty
-                                                    ? Image(
+                                              certtemp.isNotEmpty
+                                                  ? Positioned.fill(
+                                                      child: Image(
                                                         image:
                                                             certtemp[i].image,
-                                                        fit: BoxFit.contain,
+                                                        fit: BoxFit.fill,
                                                         height:
                                                             size.height * 0.5,
-                                                      )
-                                                    : Container(),
-                                              ),
+                                                        width: size.width,
+                                                      ),
+                                                    )
+                                                  : Container(),
                                               Positioned(
                                                 top: widget.fanmatch
-                                                    ? size.height * 0.41
+                                                    ? size.height * 0.4255
                                                     : widget.type == "Digital"
                                                         ? size.height * 0.325
                                                         : size.height * 0.2855,
                                                 right: widget.fanmatch
-                                                    ? size.width * 0.02
+                                                    ? size.width * 0.01
                                                     : size.width * 0.05,
                                                 left: widget.fanmatch
                                                     ? size.width * 0.33
