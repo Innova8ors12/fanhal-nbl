@@ -472,7 +472,7 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                                   : Container(),
                                               Positioned(
                                                 top: widget.fanmatch
-                                                    ? size.height * 0.4255
+                                                    ? size.height * 0.43
                                                     : widget.type == "Digital"
                                                         ? size.height * 0.325
                                                         : size.height * 0.2855,

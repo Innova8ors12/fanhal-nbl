@@ -134,7 +134,7 @@ class _CertificateFullviewState extends State<CertificateFullview> {
       final image = await _getImageFromWidget();
 
       final imageFile = File(path);
-      await imageFile.writeAsBytes(Uint8List.fromList(image));
+      await imageFile.writeAsBytes(image);
 
       if (share) {
         await SystemChannels.platform.invokeMethod('FlutterLoader.forceLoad');
@@ -150,13 +150,14 @@ class _CertificateFullviewState extends State<CertificateFullview> {
 
   Future<Uint8List> _getImageFromWidget() async {
     try {
+      setLoading(true);
       // Find the RenderRepaintBoundary of the current context using a GlobalKey
       RenderRepaintBoundary boundary = _globalKey.currentContext!
           .findRenderObject() as RenderRepaintBoundary;
 
       // Set the desired pixel ratio
       double pixelRatio =
-          3.0; // Change this if necessary, but 1.0 should maintain original size
+          2.0; // Change this if necessary, but 1.0 should maintain original size
 
       // Capture the image with increased pixel ratio
       ui.Image image = await boundary.toImage(pixelRatio: pixelRatio);
@@ -178,9 +179,10 @@ class _CertificateFullviewState extends State<CertificateFullview> {
       // Convert the resized image to JPEG format with higher quality
       Uint8List resizedByteList =
           Uint8List.fromList(img.encodeJpg(resizedImage, quality: 100));
-
+      setLoading(false);
       return resizedByteList;
     } catch (e) {
+      setLoading(false);
       // Handle and log any errors that occur during the process
       print('Error capturing and processing image: $e');
       rethrow; // Rethrow the error to propagate it further if needed
