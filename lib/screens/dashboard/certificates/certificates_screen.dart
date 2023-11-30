@@ -590,8 +590,8 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
                       child: Center(
                         child: VariableText(
                           text: "No certificate found!",
-                          fontcolor:
-                              HexColor(primarycolor.secondaryTextColor.toString()),
+                          fontcolor: HexColor(
+                              primarycolor.secondaryTextColor.toString()),
                           fontsize: size.height * 0.020,
                           fontFamily: fontMedium,
                         ),

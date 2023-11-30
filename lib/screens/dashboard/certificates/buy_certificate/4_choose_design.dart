@@ -143,7 +143,7 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
     }
   }
 
-  Future<void> getFanMatchCertificate() async {
+  Future getFanMatchCertificate() async {
     if (isLoading || !hasMore) return;
 
     setState(() {
@@ -669,20 +669,23 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                               ),
                     SizedBox(height: size.height * 0.01),
                     hasMore
-                        ? Container()
-                        // MyButton(
-                        //     onTap: getcertificate,
-                        //     btnTxt: "Show More",
-                        //     btnHeight: size.height * 0.055,
-                        //     btnWidth: size.width * 0.20,
-                        //     btnColor: Theme.of(context).primaryColor,
-                        //     borderColor: Theme.of(context).primaryColor,
-                        //     btnRadius: 200,
-                        //     fontSize: size.height * 0.014,
-                        //     fontFamily: fontSemiBold,
-                        //     weight: FontWeight.w500,
-                        //     txtColor: Theme.of(context).iconTheme.color,
-                        //   )
+                        ? MyButton(
+                            onTap: widget.fanmatch
+                                ? () {
+                                    getFanMatchCertificate();
+                                  }
+                                : getcertificate,
+                            btnTxt: "Show More",
+                            btnHeight: size.height * 0.055,
+                            btnWidth: size.width * 0.20,
+                            btnColor: Theme.of(context).primaryColor,
+                            borderColor: Theme.of(context).primaryColor,
+                            btnRadius: 200,
+                            fontSize: size.height * 0.014,
+                            fontFamily: fontSemiBold,
+                            weight: FontWeight.w500,
+                            txtColor: Theme.of(context).iconTheme.color,
+                          )
                         : VariableText(
                             text: "NO MORE Found!",
                             fontcolor:
