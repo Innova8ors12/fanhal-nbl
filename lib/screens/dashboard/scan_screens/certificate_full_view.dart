@@ -18,6 +18,7 @@ import 'package:internet_file/internet_file.dart';
 import 'package:native_pdf_renderer/native_pdf_renderer.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:image/image.dart' as img;
 import '../../../widgets/common.dart';
@@ -137,14 +138,14 @@ class _CertificateFullviewState extends State<CertificateFullview> {
       await imageFile.writeAsBytes(image);
 
       if (share) {
-        await SystemChannels.platform.invokeMethod('FlutterLoader.forceLoad');
-        final result = await OpenFile.open(path);
-        print(result.message);
+        // Use share_plus to share the image
+        await Share.shareFiles([path], text: 'Check out this image!');
       } else {
         await OpenFile.open(path);
       }
     } catch (e) {
       print('Error: $e');
+      customToast('Error: $e');
     }
   }
 
