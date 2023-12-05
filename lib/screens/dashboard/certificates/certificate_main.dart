@@ -3,6 +3,7 @@ import 'package:fan_hall/models/scan_model.dart';
 import 'package:fan_hall/nft/NFL/create_wallet.dart';
 import 'package:fan_hall/providers/theme_provider.dart';
 import 'package:fan_hall/screens/dashboard/certificates/fanMatch_certifiucate.dart';
+import 'package:fan_hall/screens/dashboard/certificates/fanMatch_certifiucate_videos.dart';
 import 'package:fan_hall/screens/dashboard/profile/profile_menu_screen.dart';
 import 'package:fan_hall/screens/dashboard/scan_screens/certificate_full_view.dart';
 import 'package:fan_hall/screens/dashboard/scan_screens/scan_certificate_screen.dart';
@@ -232,9 +233,9 @@ class _CertificateMainScreenState extends State<CertificateMainScreen>
           CertificatesScreen(
             isshow: true,
           ),
-          CertificatesScreenFanMatch(
-            isshow: true,
-          ),
+          certificatesVideos(
+              // isshow: true,
+              ),
           //NoCertificateScreen(),
           CreateWallet(),
         ],
