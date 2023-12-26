@@ -233,9 +233,9 @@ class _CertificateMainScreenState extends State<CertificateMainScreen>
           CertificatesScreen(
             isshow: true,
           ),
-          certificatesVideos(
-              // isshow: true,
-              ),
+          CertificatesScreenFanMatch(
+            isshow: true,
+          ),
           //NoCertificateScreen(),
           CreateWallet(),
         ],

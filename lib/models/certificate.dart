@@ -6,10 +6,10 @@ class Certificate {
   int? lastPage;
   String? lastPageUrl;
   List<Links>? links;
-  String? nextPageUrl;
+  Null? nextPageUrl;
   String? path;
   int? perPage;
-  String? prevPageUrl;
+  Null? prevPageUrl;
   int? to;
   int? total;
 
@@ -79,37 +79,51 @@ class Certificate {
 
 class Data {
   int? id;
+  String? fanmatchId;
   String? serialNo;
-  String? nflCertificateId;
+  Null? nflCertificateId;
   String? certImg;
-  String? backgroundColor;
+  Null? backgroundColor;
   String? textColor;
+  String? serialColor;
   String? backgroundImg;
-  String? plateImg;
-  String? backgroundImgDigital;
+  String? backgroundVideo;
+  Null? plateImg;
+  Null? backgroundImgDigital;
   String? icon1;
   String? icon2;
-  String? icon3;
+  Null? icon3;
   int? leagueId;
   int? teamId;
-  int? seasonId;
-  int? heroId;
-  int? momentsId;
+  Null? seasonId;
+  Null? heroId;
+  Null? momentsId;
+  String? fanMatchTitle;
+  int? isFanMatch;
+  String? fanMatch;
+  int? noOfDesign;
+  String? noOfDesignTotal;
+  Null? hallOfFameId;
   String? type;
   String? price;
   String? qrCode;
   String? nflType;
+  int? isAvailable;
+  String? fanmatchType;
   String? createdAt;
   String? updatedAt;
 
   Data(
       {this.id,
+      this.fanmatchId,
       this.serialNo,
       this.nflCertificateId,
       this.certImg,
       this.backgroundColor,
       this.textColor,
+      this.serialColor,
       this.backgroundImg,
+      this.backgroundVideo,
       this.plateImg,
       this.backgroundImgDigital,
       this.icon1,
@@ -120,21 +134,32 @@ class Data {
       this.seasonId,
       this.heroId,
       this.momentsId,
+      this.fanMatchTitle,
+      this.isFanMatch,
+      this.fanMatch,
+      this.noOfDesign,
+      this.noOfDesignTotal,
+      this.hallOfFameId,
       this.type,
       this.price,
       this.qrCode,
       this.nflType,
+      this.isAvailable,
+      this.fanmatchType,
       this.createdAt,
       this.updatedAt});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    fanmatchId = json['fanmatch_id'];
     serialNo = json['serial_no'];
     nflCertificateId = json['nfl_certificate_id'];
     certImg = json['cert_img'];
     backgroundColor = json['background_color'];
     textColor = json['text_color'];
+    serialColor = json['serial_color'];
     backgroundImg = json['background_img'];
+    backgroundVideo = json['background_video'];
     plateImg = json['plate_img'];
     backgroundImgDigital = json['background_img_digital'];
     icon1 = json['icon1'];
@@ -145,10 +170,18 @@ class Data {
     seasonId = json['season_id'];
     heroId = json['hero_id'];
     momentsId = json['moments_id'];
+    fanMatchTitle = json['fan_match_title'];
+    isFanMatch = json['is_fan_match'];
+    fanMatch = json['fan_match'];
+    noOfDesign = json['no_of_design'];
+    noOfDesignTotal = json['no_of_design_total'];
+    hallOfFameId = json['hall_of_fame_id'];
     type = json['type'];
     price = json['price'];
     qrCode = json['qr_code'];
     nflType = json['nfl_type'];
+    isAvailable = json['is_available'];
+    fanmatchType = json['fanmatch_type'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -156,12 +189,15 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['fanmatch_id'] = this.fanmatchId;
     data['serial_no'] = this.serialNo;
     data['nfl_certificate_id'] = this.nflCertificateId;
     data['cert_img'] = this.certImg;
     data['background_color'] = this.backgroundColor;
     data['text_color'] = this.textColor;
+    data['serial_color'] = this.serialColor;
     data['background_img'] = this.backgroundImg;
+    data['background_video'] = this.backgroundVideo;
     data['plate_img'] = this.plateImg;
     data['background_img_digital'] = this.backgroundImgDigital;
     data['icon1'] = this.icon1;
@@ -172,10 +208,18 @@ class Data {
     data['season_id'] = this.seasonId;
     data['hero_id'] = this.heroId;
     data['moments_id'] = this.momentsId;
+    data['fan_match_title'] = this.fanMatchTitle;
+    data['is_fan_match'] = this.isFanMatch;
+    data['fan_match'] = this.fanMatch;
+    data['no_of_design'] = this.noOfDesign;
+    data['no_of_design_total'] = this.noOfDesignTotal;
+    data['hall_of_fame_id'] = this.hallOfFameId;
     data['type'] = this.type;
     data['price'] = this.price;
     data['qr_code'] = this.qrCode;
     data['nfl_type'] = this.nflType;
+    data['is_available'] = this.isAvailable;
+    data['fanmatch_type'] = this.fanmatchType;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

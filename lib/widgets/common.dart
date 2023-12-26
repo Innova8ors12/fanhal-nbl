@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'style.dart';
 
@@ -34,6 +35,7 @@ String? longitude = "12120521";
 String? selectedHero;
 String? nickName = "";
 String? herostype;
+String? Fanmatchtype;
 String? leagueName;
 String? nationalId;
 String? SeasonYear;
@@ -1219,6 +1221,7 @@ class FlipCard extends StatelessWidget {
     );
   }
 }
+
 class ProcessLoadingLight extends StatefulWidget {
   @override
   State createState() {
@@ -1241,7 +1244,7 @@ class _ProcessLoadingLightState extends State<ProcessLoadingLight>
     _cont!.addListener(() {
       setState(() {});
     });
-    ColorTween? col = ColorTween(begin: primaryColor1, end:primaryColorW);
+    ColorTween? col = ColorTween(begin: primaryColor1, end: primaryColorW);
     _anim = col.animate(_cont!);
     _cont!.repeat(reverse: true);
     super.initState();
@@ -1269,6 +1272,7 @@ class _ProcessLoadingLightState extends State<ProcessLoadingLight>
         ));
   }
 }
+
 class MenuAppbar extends StatelessWidget {
   bool allowBack;
   MenuAppbar({Key? key, this.allowBack = true}) : super(key: key);
@@ -1306,6 +1310,34 @@ class MenuAppbar extends StatelessWidget {
                     height: size.height * 0.05,
                     width: size.width * 0.10,
                   ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CachedImage extends StatelessWidget {
+  String? url;
+  BoxFit? boxFit;
+  CachedImage({Key? key, required this.url, this.boxFit = BoxFit.cover})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: url!,
+      fit: boxFit,
+      progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+          child: CircularProgressIndicator(
+              color: primaryColor1,
+              value: downloadProgress.progress,
+              strokeWidth: 2)),
+      errorWidget: (context, url, value) => Stack(
+        children: [
+          Positioned.fill(
+            child: Container(
+                child: Icon(Icons.image, color: Colors.white, size: 20)),
           ),
         ],
       ),

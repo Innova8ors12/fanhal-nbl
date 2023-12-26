@@ -376,13 +376,18 @@ class _CertificatesScreenFanMatchState
                                       );
                                     },
                                     child: certtemp.isNotEmpty
-                                        ? Image(
-                                            image: certtemp[index].image,
-                                            fit: BoxFit.contain,
-                                            // height: size.height * 0.4,
-                                            //   width: size.width * 0.5,
-                                            // width: size.width,
-                                          )
+                                        ? TeamCertificate[index].id == ""
+                                            ? VideoPlayerWidget(
+                                                videoUrl: TeamCertificate[index]
+                                                    .img
+                                                    .toString())
+                                            : Image(
+                                                image: certtemp[index].image,
+                                                fit: BoxFit.contain,
+                                                // height: size.height * 0.4,
+                                                //   width: size.width * 0.5,
+                                                // width: size.width,
+                                              )
                                         : Container(),
                                   ),
                                 ],

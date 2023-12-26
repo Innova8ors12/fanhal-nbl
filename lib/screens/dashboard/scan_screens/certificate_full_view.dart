@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fan_hall/controller/auth/league_api.dart';
 import 'package:fan_hall/providers/userProvider.dart';
 import 'package:fan_hall/screens/dashboard/certificates/buy_certificate/1_pick_category.dart';
+import 'package:fan_hall/screens/dashboard/certificates/buy_certificate/4_choose_design.dart';
 import 'package:fan_hall/screens/dashboard/profile/profile_menu_screen.dart';
 import 'package:file_support/file_support.dart';
 import 'package:flutter/material.dart';
@@ -27,14 +28,17 @@ import '../../../widgets/style.dart';
 class CertificateFullview extends StatefulWidget {
   final bool? scan;
   final bool? show;
+  final bool? isvideo;
   final String? imageofcert;
   final Image? image;
   final String? id;
+
   const CertificateFullview(
       {Key? key,
       this.image,
       this.imageofcert,
       required this.scan,
+      this.isvideo = false,
       required this.show,
       this.id})
       : super(key: key);
@@ -313,12 +317,14 @@ class _CertificateFullviewState extends State<CertificateFullview> {
                                         onLongPress: () {
                                           _showDialog();
                                         },
-                                        child: image1 != null
-                                            ? Image(
-                                                image: image1!.image,
-                                                fit: BoxFit.cover,
-                                              )
-                                            : Container()))
+                                        child: widget.isvideo!
+                                            ? VideoPlayerWidget(videoUrl: "")
+                                            : image1 != null
+                                                ? Image(
+                                                    image: image1!.image,
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                : Container()))
                                 : InkWell(
                                     onLongPress: () {
                                       _showDialog();

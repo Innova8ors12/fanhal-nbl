@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chewie/chewie.dart';
 import 'package:fan_hall/controller/auth/league_api.dart';
 import 'package:fan_hall/models/certificate.dart';
 import 'package:fan_hall/models/user_model.dart';
@@ -10,6 +11,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:internet_file/internet_file.dart';
 import 'package:native_pdf_renderer/native_pdf_renderer.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../../../widgets/common.dart';
 import '../../../../widgets/style.dart';
@@ -18,6 +20,7 @@ import '5_buy.dart';
 class ChooseDesignScreen extends StatefulWidget {
   bool isfame;
   bool fanmatch;
+  bool isvideo;
   final String type;
   final String id;
   ChooseDesignScreen(
@@ -25,6 +28,7 @@ class ChooseDesignScreen extends StatefulWidget {
       required this.type,
       required this.id,
       this.isfame = false,
+      this.isvideo = false,
       this.fanmatch = false})
       : super(key: key);
 
@@ -152,6 +156,52 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
 
     var res = await ApiModel()
         .getFanMatchCertificate(widget.type.toString(), page, limit);
+    List<Certificate> certificates = [];
+
+    if (res != null && res['status']) {
+      var data = res['data'];
+
+      if (data is Iterable) {
+        for (var item in data) {
+          var certificate = Certificate.fromJson(item);
+
+          await convertAndAddImages(certificate);
+          certificates.add(certificate);
+        }
+      } else if (data is Map) {
+        var certificate = Certificate.fromJson(res['data']);
+        await convertAndAddImages(certificate);
+        certificates.add(certificate);
+      }
+
+      if (certificates[0].data!.isNotEmpty) {
+        setState(() {
+          TeamCertificate.addAll(certificates[0].data!);
+          page++; // Increment page number
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          hasMore = false;
+          isLoading = false;
+        });
+      }
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future getFanMatchCertificateforVideos() async {
+    if (isLoading || !hasMore) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    var res = await ApiModel()
+        .getFanMatchCertificateVideos(widget.type.toString(), page, limit);
     List<Certificate> certificates = [];
 
     if (res != null && res['status']) {
@@ -336,7 +386,11 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
   @override
   void initState() {
     if (widget.fanmatch) {
-      getFanMatchCertificate();
+      if (widget.isvideo) {
+        getFanMatchCertificateforVideos();
+      } else {
+        getFanMatchCertificate();
+      }
     } else {
       widget.isfame ? gethalloffamecertificate() : getcertificate();
     }
@@ -460,14 +514,21 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                             children: [
                                               certtemp.isNotEmpty
                                                   ? Positioned.fill(
-                                                      child: Image(
-                                                        image:
-                                                            certtemp[i].image,
-                                                        fit: BoxFit.fill,
-                                                        height:
-                                                            size.height * 0.5,
-                                                        width: size.width,
-                                                      ),
+                                                      child: widget.isvideo
+                                                          ? VideoPlayerWidget(
+                                                              videoUrl: TeamCertificate[
+                                                                      i]
+                                                                  .backgroundVideo
+                                                                  .toString())
+                                                          : Image(
+                                                              image: certtemp[i]
+                                                                  .image,
+                                                              fit: BoxFit.fill,
+                                                              height:
+                                                                  size.height *
+                                                                      0.5,
+                                                              width: size.width,
+                                                            ),
                                                     )
                                                   : Container(),
                                               Positioned(
@@ -627,6 +688,237 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                                         ),
                                                       ),
                                               ),
+                                              widget.isvideo
+                                                  ? Positioned(
+                                                      top: widget.fanmatch
+                                                          ? size.height * 0.43
+                                                          : widget.type ==
+                                                                  "Digital"
+                                                              ? size.height *
+                                                                  0.325
+                                                              : size.height *
+                                                                  0.2855,
+                                                      right: widget.fanmatch
+                                                          ? size.width * 0.33
+                                                          : size.width * 0.05,
+                                                      left: widget.fanmatch
+                                                          ? size.width * 0.02
+                                                          : size.width * 0.05,
+                                                      child: widget.fanmatch
+                                                          ? Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceAround,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                VariableText(
+                                                                  text: TeamCertificate[
+                                                                          indexx]
+                                                                      .fanMatchTitle
+                                                                      .toString()
+                                                                      .toUpperCase(),
+                                                                  fontcolor: widget
+                                                                          .fanmatch
+                                                                      ? HexColor(TeamCertificate[
+                                                                              indexx]
+                                                                          .textColor
+                                                                          .toString())
+                                                                      : widget.type ==
+                                                                              "Digital"
+                                                                          ? HexColor(TeamCertificate[indexx]
+                                                                              .textColor
+                                                                              .toString())
+                                                                          : textColorB,
+                                                                  fontsize: widget
+                                                                          .fanmatch
+                                                                      ? size.height *
+                                                                          0.02
+                                                                      : widget.type ==
+                                                                              "Digital"
+                                                                          ? size.height *
+                                                                              0.019
+                                                                          : size.height *
+                                                                              0.018,
+                                                                  fontFamily:
+                                                                      fontBold,
+                                                                  weight: widget
+                                                                          .fanmatch
+                                                                      ? FontWeight
+                                                                          .w400
+                                                                      : widget.type ==
+                                                                              "Digital"
+                                                                          ? FontWeight
+                                                                              .w800
+                                                                          : FontWeight
+                                                                              .w800,
+                                                                  max_lines: 1,
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .start,
+                                                                ),
+                                                                VariableText(
+                                                                  text: TeamCertificate[
+                                                                          indexx]!
+                                                                      .serialNo
+                                                                      .toString(),
+                                                                  fontcolor: widget
+                                                                          .fanmatch
+                                                                      ? HexColor(TeamCertificate[
+                                                                              indexx]
+                                                                          .serialColor
+                                                                          .toString())
+                                                                      : widget.type ==
+                                                                              "Digital"
+                                                                          ? HexColor(TeamCertificate[indexx]
+                                                                              .textColor
+                                                                              .toString())
+                                                                          : textColorB,
+                                                                  fontsize: widget
+                                                                          .fanmatch
+                                                                      ? size.height *
+                                                                          0.009
+                                                                      : widget.type ==
+                                                                              "Digital"
+                                                                          ? size.height *
+                                                                              0.019
+                                                                          : size.height *
+                                                                              0.018,
+                                                                  fontFamily:
+                                                                      fontBold,
+                                                                  weight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  max_lines: 1,
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                ),
+                                                              ],
+                                                            )
+                                                          : Container(
+                                                              width:
+                                                                  size.width *
+                                                                      0.255,
+                                                              height:
+                                                                  size.height *
+                                                                      0.035,
+                                                              child:
+                                                                  VariableText(
+                                                                text: _certificateName
+                                                                    .text
+                                                                    .toUpperCase(),
+                                                                fontcolor: widget
+                                                                        .fanmatch
+                                                                    ? textColorW
+                                                                    : widget.type ==
+                                                                            "Digital"
+                                                                        ? HexColor(TeamCertificate[indexx]
+                                                                            .textColor
+                                                                            .toString())
+                                                                        : textColorB,
+                                                                fontsize: widget
+                                                                        .fanmatch
+                                                                    ? size.height *
+                                                                        0.010
+                                                                    : widget.type ==
+                                                                            "Digital"
+                                                                        ? size.height *
+                                                                            0.019
+                                                                        : size.height *
+                                                                            0.018,
+                                                                fontFamily:
+                                                                    fontBold,
+                                                                weight: widget
+                                                                        .fanmatch
+                                                                    ? FontWeight
+                                                                        .w400
+                                                                    : widget.type ==
+                                                                            "Digital"
+                                                                        ? FontWeight
+                                                                            .w800
+                                                                        : FontWeight
+                                                                            .w800,
+                                                                max_lines: 1,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                            ),
+                                                    )
+                                                  : Container(),
+                                              widget.isvideo
+                                                  ? Positioned(
+                                                      top: widget.fanmatch
+                                                          ? size.height * 0.47
+                                                          : widget.type ==
+                                                                  "Digital"
+                                                              ? size.height *
+                                                                  0.325
+                                                              : size.height *
+                                                                  0.2855,
+                                                      right: widget.fanmatch
+                                                          ? size.width * 0.25
+                                                          : size.width * 0.05,
+                                                      left: widget.fanmatch
+                                                          ? size.width * 0.25
+                                                          : size.width * 0.05,
+                                                      child: widget.fanmatch
+                                                          ? Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SizedBox(
+                                                                  height:
+                                                                      size.height *
+                                                                          0.02,
+                                                                  width:
+                                                                      size.height *
+                                                                          0.02,
+                                                                  child: Image
+                                                                      .network(
+                                                                    TeamCertificate[
+                                                                            indexx]
+                                                                        .icon1
+                                                                        .toString(),
+                                                                    // fit: BoxFit.contain,
+                                                                    scale: 2,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height:
+                                                                      size.height *
+                                                                          0.02,
+                                                                  width:
+                                                                      size.height *
+                                                                          0.02,
+                                                                  child: Image
+                                                                      .network(
+                                                                    TeamCertificate[
+                                                                            indexx]
+                                                                        .icon2
+                                                                        .toString(),
+                                                                    // fit: BoxFit.contain,
+                                                                    scale: 2,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          : Container(
+                                                              width:
+                                                                  size.width *
+                                                                      0.255,
+                                                              height:
+                                                                  size.height *
+                                                                      0.035,
+                                                            ),
+                                                    )
+                                                  : Container(),
                                             ],
                                           ),
                                         ),
@@ -672,7 +964,11 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                         ? MyButton(
                             onTap: widget.fanmatch
                                 ? () {
-                                    getFanMatchCertificate();
+                                    if (widget.isvideo) {
+                                      getFanMatchCertificateforVideos();
+                                    } else {
+                                      getFanMatchCertificate();
+                                    }
                                   }
                                 : getcertificate,
                             btnTxt: "Show More",
@@ -751,5 +1047,53 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
         ],
       ),
     );
+  }
+}
+
+class VideoPlayerWidget extends StatefulWidget {
+  final String videoUrl;
+
+  VideoPlayerWidget({required this.videoUrl});
+
+  @override
+  _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
+}
+
+class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
+  VideoPlayerController? _videoPlayerController;
+  Future<void>? _initializeVideoPlayerFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _videoPlayerController = VideoPlayerController.network(widget.videoUrl);
+    _initializeVideoPlayerFuture = _videoPlayerController!.initialize();
+    _videoPlayerController!.setLooping(true);
+    _videoPlayerController!.play();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _initializeVideoPlayerFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return AspectRatio(
+            aspectRatio: _videoPlayerController!.value.aspectRatio,
+            child: VideoPlayer(_videoPlayerController!),
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _videoPlayerController!.dispose();
+    super.dispose();
   }
 }

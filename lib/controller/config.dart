@@ -15,10 +15,14 @@ class CONFIG {
   static final String getYear = "api/score/getYear";
   static final String getweek = "api/score/getWeek";
   static final String getCerti = "api/certificates/getByType/";
-  static final String getFanMatchcertificate = "api/fanmatch/certificates/getAll/";
+  static final String getFanMatchcertificate =
+      "api/fanmatch/certificates/getAll/";
+  static final String getFanMatchcertificateforvideos =
+      "api/fanmatch/certificates/video/getAll/";
   static final String getCertbyhalloffame = "api/certificates/halloffame/";
   static final String getShowcase = "api/certificates/getFanShowCase";
-  static final String getShowcaseFanMatch = "api/fanmatch/certificates/getFanMatchShowCase";
+  static final String getShowcaseFanMatch =
+      "api/fanmatch/certificates/getFanMatchShowCase";
   static final String getCertiorder = "api/certificates/getCertificateOrder";
   static final String buyCerti = "api/certificates/buyCertificate";
   static final String getsingleTeam = "api/teams/getSingleTeam/";
@@ -28,7 +32,8 @@ class CONFIG {
   static final String getsingle = "api/users/getSinglePost/";
   static final String getCertiByHero = "api/certificates/getByHero/";
   static final String getCertiPdf = "api/certificates/createCertificatePdf/";
-   static final String getCertiPdfforFAnmatch = "api/fanmatch/certificates/createCertificatePdf/";
+  static final String getCertiPdfforFAnmatch =
+      "api/fanmatch/certificates/createCertificatePdf/";
   static final String getCertiByMoments =
       "api/certificates/getAwesomeCertificate/";
   static final String getHeros = "api/heroes/";

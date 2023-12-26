@@ -5,7 +5,7 @@ import '../../../../widgets/common.dart';
 import '../../../../widgets/style.dart';
 import '4_choose_design.dart';
 
-class CertificateTypeScreen extends StatelessWidget {
+class CertificateTypeScreen extends StatefulWidget {
   bool isfame;
   bool isfanmatch;
   final String CertificateId;
@@ -19,13 +19,19 @@ class CertificateTypeScreen extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<CertificateTypeScreen> createState() => _CertificateTypeScreenState();
+}
+
+class _CertificateTypeScreenState extends State<CertificateTypeScreen> {
+  List<String> Fanmatchtypes = ["Video FanMatch", "Image FanMatch"];
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: backgroundColor1,
       body: SafeArea(
-        child: isfanmatch
+        child: widget.isfanmatch
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -69,74 +75,397 @@ class CertificateTypeScreen extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: size.height * 0.02),
-                        MyButton(
-                          btnHeight: size.height * 0.055,
-                          btnWidth: size.width * 0.60,
-                          btnColor: primaryColorW,
-                          borderColor: primaryColorW,
-                          btnRadius: 200,
-                          btnTxt: "FanMatch Of Team",
-                          fontSize: size.height * 0.018,
-                          fontFamily: fontSemiBold,
-                          weight: FontWeight.w500,
-                          txtColor: textColor1,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                SwipeLeftAnimationRoute(
-                                    widget: ChooseDesignScreen(
-                                  type: "1",
-                                  id: "",
-                                  fanmatch: true,
-                                )));
-                          },
-                        ),
+                        Container(
+                            height: size.height * 0.06,
+                            width: size.width * 0.6,
+                            decoration: BoxDecoration(
+                              color: textColorW,
+                              borderRadius: BorderRadius.circular(200),
+                            ),
+                            child: InputDecorator(
+                                decoration: InputDecoration(
+                                  iconColor: primaryColor1,
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(200),
+                                      borderSide: BorderSide(
+                                          color: primaryColorW, width: 2.0)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(200),
+                                      borderSide: BorderSide(
+                                          color: primaryColorW, width: 2.0)),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(200),
+                                      borderSide: BorderSide(
+                                          color: primaryColorW, width: 2.0)),
+                                  contentPadding: EdgeInsets.all(10),
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                        icon: Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
+                                          child: Image.asset(
+                                              'assets/icons/ic_dropdown.png',
+                                              scale: 3),
+                                        ),
+                                        hint: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 12),
+                                          child: Center(
+                                            child: VariableText(
+                                              text: "FanMatch Of Team",
+                                              fontsize: size.height * 0.018,
+                                              fontFamily: fontSemiBold,
+                                              weight: FontWeight.w500,
+                                              fontcolor: textColor1,
+                                            ),
+                                          ),
+                                        ),
+                                        value: herostype,
+                                        dropdownColor: textColorW,
+                                        isExpanded: true,
+                                        onTap: () {
+                                          FocusScope.of(context).unfocus();
+                                        },
+                                        onChanged: (String? value) {
+                                          // selectedmomentId=null;
+                                          Fanmatchtype = null;
+                                          if (herostype == null) {
+                                            setState(() {
+                                              Fanmatchtype = value;
+                                              // selectedHero=herosType.toString();
+                                            });
+                                          } else {
+                                            Fanmatchtype = null;
+                                          }
+                                          if (Fanmatchtype ==
+                                              "Video FanMatch") {
+                                            Navigator.push(
+                                                context,
+                                                SwipeLeftAnimationRoute(
+                                                    widget: ChooseDesignScreen(
+                                                  type: "1",
+                                                  id: "",
+                                                  fanmatch: true,
+                                                  isvideo: true,
+                                                )));
+                                          } else {
+                                            Navigator.push(
+                                                context,
+                                                SwipeLeftAnimationRoute(
+                                                    widget: ChooseDesignScreen(
+                                                  type: "1",
+                                                  id: "",
+                                                  fanmatch: true,
+                                                )));
+                                          }
+                                        },
+                                        style: TextStyle(
+                                            fontSize: size.height * 0.017,
+                                            color: textColorW),
+                                        items: Fanmatchtypes.map<
+                                                DropdownMenuItem<String>>(
+                                            (String item) {
+                                          return DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0),
+                                              child: Center(
+                                                child: VariableText(
+                                                  text: item,
+                                                  fontsize: size.height * 0.018,
+                                                  fontFamily: fontSemiBold,
+                                                  weight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList())))),
+                        // MyButton(
+                        //   btnHeight: size.height * 0.055,
+                        //   btnWidth: size.width * 0.60,
+                        //   btnColor: primaryColorW,
+                        //   borderColor: primaryColorW,
+                        //   btnRadius: 200,
+                        //   btnTxt: "FanMatch Of Team",
+                        //   fontSize: size.height * 0.018,
+                        //   fontFamily: fontSemiBold,
+                        //   weight: FontWeight.w500,
+                        //   txtColor: textColor1,
+                        //   onTap: () {
+                        //     Navigator.push(
+                        //         context,
+                        //         SwipeLeftAnimationRoute(
+                        //             widget: ChooseDesignScreen(
+                        //           type: "1",
+                        //           id: "",
+                        //           fanmatch: true,
+                        //         )));
+                        //   },
+                        // ),
                         SizedBox(height: size.height * 0.02),
-                        MyButton(
-                          btnHeight: size.height * 0.055,
-                          btnWidth: size.width * 0.60,
-                          btnColor: primaryColorW,
-                          borderColor: primaryColorW,
-                          btnRadius: 200,
-                          btnTxt: "FanMatch Of Player",
-                          fontSize: size.height * 0.018,
-                          fontFamily: fontSemiBold,
-                          weight: FontWeight.w500,
-                          txtColor: textColor1,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                SwipeLeftAnimationRoute(
-                                    widget: ChooseDesignScreen(
-                                  type: "2",
-                                  id: "",
-                                  fanmatch: true,
-                                )));
-                          },
-                        ),
+                        Container(
+                            height: size.height * 0.06,
+                            width: size.width * 0.6,
+                            decoration: BoxDecoration(
+                              color: textColorW,
+                              borderRadius: BorderRadius.circular(200),
+                            ),
+                            child: InputDecorator(
+                                decoration: InputDecoration(
+                                  iconColor: primaryColor1,
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(200),
+                                      borderSide: BorderSide(
+                                          color: primaryColorW, width: 2.0)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(200),
+                                      borderSide: BorderSide(
+                                          color: primaryColorW, width: 2.0)),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(200),
+                                      borderSide: BorderSide(
+                                          color: primaryColorW, width: 2.0)),
+                                  contentPadding: EdgeInsets.all(10),
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                        icon: Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
+                                          child: Image.asset(
+                                              'assets/icons/ic_dropdown.png',
+                                              scale: 3),
+                                        ),
+                                        hint: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 12),
+                                          child: Center(
+                                            child: VariableText(
+                                              text: "FanMatch Of Player",
+                                              fontsize: size.height * 0.018,
+                                              fontFamily: fontSemiBold,
+                                              weight: FontWeight.w500,
+                                              fontcolor: textColor1,
+                                            ),
+                                          ),
+                                        ),
+                                        value: herostype,
+                                        dropdownColor: textColorW,
+                                        isExpanded: true,
+                                        onTap: () {
+                                          FocusScope.of(context).unfocus();
+                                        },
+                                        onChanged: (String? value) {
+                                          // selectedmomentId=null;
+                                          Fanmatchtype = null;
+                                          if (herostype == null) {
+                                            setState(() {
+                                              Fanmatchtype = value;
+                                              // selectedHero=herosType.toString();
+                                            });
+                                          } else {
+                                            Fanmatchtype = null;
+                                          }
+                                          if (Fanmatchtype ==
+                                              "Video FanMatch") {
+                                            Navigator.push(
+                                                context,
+                                                SwipeLeftAnimationRoute(
+                                                    widget: ChooseDesignScreen(
+                                                  type: "2",
+                                                  id: "",
+                                                  fanmatch: true,
+                                                  isvideo: true,
+                                                )));
+                                          } else {
+                                            Navigator.push(
+                                                context,
+                                                SwipeLeftAnimationRoute(
+                                                    widget: ChooseDesignScreen(
+                                                  type: "2",
+                                                  id: "",
+                                                  fanmatch: true,
+                                                )));
+                                          }
+                                        },
+                                        style: TextStyle(
+                                            fontSize: size.height * 0.017,
+                                            color: textColorW),
+                                        items: Fanmatchtypes.map<
+                                                DropdownMenuItem<String>>(
+                                            (String item) {
+                                          return DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0),
+                                              child: Center(
+                                                child: VariableText(
+                                                  text: item,
+                                                  fontsize: size.height * 0.018,
+                                                  fontFamily: fontSemiBold,
+                                                  weight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList())))),
+                        // MyButton(
+                        //   btnHeight: size.height * 0.055,
+                        //   btnWidth: size.width * 0.60,
+                        //   btnColor: primaryColorW,
+                        //   borderColor: primaryColorW,
+                        //   btnRadius: 200,
+                        //   btnTxt: "FanMatch Of Team",
+                        //   fontSize: size.height * 0.018,
+                        //   fontFamily: fontSemiBold,
+                        //   weight: FontWeight.w500,
+                        //   txtColor: textColor1,
+                        //   onTap: () {
+                        //     Navigator.push(
+                        //         context,
+                        //         SwipeLeftAnimationRoute(
+                        //             widget: ChooseDesignScreen(
+                        //           type: "1",
+                        //           id: "",
+                        //           fanmatch: true,
+                        //         )));
+                        //   },
+                        // ),
                         SizedBox(height: size.height * 0.02),
-                        MyButton(
-                          btnHeight: size.height * 0.055,
-                          btnWidth: size.width * 0.60,
-                          btnColor: primaryColorW,
-                          borderColor: primaryColorW,
-                          btnRadius: 200,
-                          btnTxt: "FanMatch Of Game",
-                          fontSize: size.height * 0.018,
-                          fontFamily: fontSemiBold,
-                          weight: FontWeight.w500,
-                          txtColor: textColor1,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                SwipeLeftAnimationRoute(
-                                    widget: ChooseDesignScreen(
-                                  type: "3",
-                                  id: "",
-                                  fanmatch: true,
-                                )));
-                          },
-                        ),
+                        Container(
+                            height: size.height * 0.06,
+                            width: size.width * 0.6,
+                            decoration: BoxDecoration(
+                              color: textColorW,
+                              borderRadius: BorderRadius.circular(200),
+                            ),
+                            child: InputDecorator(
+                                decoration: InputDecoration(
+                                  iconColor: primaryColor1,
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(200),
+                                      borderSide: BorderSide(
+                                          color: primaryColorW, width: 2.0)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(200),
+                                      borderSide: BorderSide(
+                                          color: primaryColorW, width: 2.0)),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(200),
+                                      borderSide: BorderSide(
+                                          color: primaryColorW, width: 2.0)),
+                                  contentPadding: EdgeInsets.all(10),
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                        icon: Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
+                                          child: Image.asset(
+                                              'assets/icons/ic_dropdown.png',
+                                              scale: 3),
+                                        ),
+                                        hint: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 12),
+                                          child: Center(
+                                            child: VariableText(
+                                              text: "FanMatch Of Game",
+                                              fontsize: size.height * 0.018,
+                                              fontFamily: fontSemiBold,
+                                              weight: FontWeight.w500,
+                                              fontcolor: textColor1,
+                                            ),
+                                          ),
+                                        ),
+                                        value: herostype,
+                                        dropdownColor: textColorW,
+                                        isExpanded: true,
+                                        onTap: () {
+                                          FocusScope.of(context).unfocus();
+                                        },
+                                        onChanged: (String? value) {
+                                          // selectedmomentId=null;
+                                          Fanmatchtype = null;
+                                          if (herostype == null) {
+                                            setState(() {
+                                              Fanmatchtype = value;
+                                              // selectedHero=herosType.toString();
+                                            });
+                                          } else {
+                                            Fanmatchtype = null;
+                                          }
+                                          if (Fanmatchtype ==
+                                              "Video FanMatch") {
+                                            Navigator.push(
+                                                context,
+                                                SwipeLeftAnimationRoute(
+                                                    widget: ChooseDesignScreen(
+                                                  type: "3",
+                                                  id: "",
+                                                  fanmatch: true,
+                                                  isvideo: true,
+                                                )));
+                                          } else {
+                                            Navigator.push(
+                                                context,
+                                                SwipeLeftAnimationRoute(
+                                                    widget: ChooseDesignScreen(
+                                                  type: "3",
+                                                  id: "",
+                                                  fanmatch: true,
+                                                )));
+                                          }
+                                        },
+                                        style: TextStyle(
+                                            fontSize: size.height * 0.017,
+                                            color: textColorW),
+                                        items: Fanmatchtypes.map<
+                                                DropdownMenuItem<String>>(
+                                            (String item) {
+                                          return DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0),
+                                              child: Center(
+                                                child: VariableText(
+                                                  text: item,
+                                                  fontsize: size.height * 0.018,
+                                                  fontFamily: fontSemiBold,
+                                                  weight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList())))),
+                        // MyButton(
+                        //   btnHeight: size.height * 0.055,
+                        //   btnWidth: size.width * 0.60,
+                        //   btnColor: primaryColorW,
+                        //   borderColor: primaryColorW,
+                        //   btnRadius: 200,
+                        //   btnTxt: "FanMatch Of Team",
+                        //   fontSize: size.height * 0.018,
+                        //   fontFamily: fontSemiBold,
+                        //   weight: FontWeight.w500,
+                        //   txtColor: textColor1,
+                        //   onTap: () {
+                        //     Navigator.push(
+                        //         context,
+                        //         SwipeLeftAnimationRoute(
+                        //             widget: ChooseDesignScreen(
+                        //           type: "1",
+                        //           id: "",
+                        //           fanmatch: true,
+                        //         )));
+                        //   },
+                        // ),
+                        SizedBox(height: size.height * 0.02),
+
                         SizedBox(height: size.height * 0.15),
                       ],
                     ),
@@ -223,8 +552,8 @@ class CertificateTypeScreen extends StatelessWidget {
                                 SwipeLeftAnimationRoute(
                                     widget: ChooseDesignScreen(
                                   type: "Digital",
-                                  id: CertificateId,
-                                  isfame: isfame,
+                                  id: widget.CertificateId,
+                                  isfame: widget.isfame,
                                 )));
                           },
                         ),
@@ -246,8 +575,8 @@ class CertificateTypeScreen extends StatelessWidget {
                                 SwipeLeftAnimationRoute(
                                     widget: ChooseDesignScreen(
                                         type: "art",
-                                        id: CertificateId,
-                                        isfame: isfame)));
+                                        id: widget.CertificateId,
+                                        isfame: widget.isfame)));
                           },
                         ),
                         SizedBox(height: size.height * 0.15),

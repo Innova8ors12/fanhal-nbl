@@ -332,6 +332,28 @@ class ApiModel {
     }
   }
 
+  Future<dynamic> getFanMatchCertificateVideos(
+      String type, int page, int limit) async {
+    final url = Uri.parse(CONFIG.domain +
+        CONFIG.getFanMatchcertificateforvideos +
+        type +
+        "/" +
+        limit.toString() +
+        "?page=$page");
+    print(url);
+    try {
+      var response = await http.get(url);
+      var res = convert.jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return res;
+      } else {
+        print(response.reasonPhrase);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<dynamic> getCertificatefame(
       String type, String teamId, int page, int limit) async {
     final url = Uri.parse(CONFIG.domain +
