@@ -5,6 +5,8 @@ import 'package:fan_hall/controller/auth/league_api.dart';
 import 'package:fan_hall/models/certificate.dart';
 import 'package:fan_hall/models/pdf_img_model.dart';
 import 'package:fan_hall/models/pdf_model.dart';
+import 'package:fan_hall/providers/userProvider.dart';
+import 'package:fan_hall/screens/dashboard/certificates/buy_certificate/4_choose_design.dart';
 import 'package:fan_hall/screens/dashboard/certificates/buy_certificate/payment.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +17,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:native_pdf_renderer/native_pdf_renderer.dart';
+import 'package:provider/provider.dart';
 // import 'package:screenshot/screenshot.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
@@ -31,14 +35,17 @@ class BuyScreen extends StatefulWidget {
   final String type;
   final String id;
   final bool FanMatch;
-
+  final Data? certificate_video;
+  final bool isvideo;
   const BuyScreen(
       {Key? key,
       required this.CertificateName,
       required this.userName,
       required this.type,
       required this.id,
-      required this.FanMatch})
+      this.certificate_video,
+      required this.FanMatch,
+      this.isvideo = false})
       : super(key: key);
 
   @override
@@ -257,7 +264,7 @@ class _BuyScreenState extends State<BuyScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
+    var userdata = Provider.of<UserProvider>(context).user;
     return Scaffold(
       backgroundColor: backgroundColor1,
       resizeToAvoidBottomInset: false,
@@ -316,17 +323,219 @@ class _BuyScreenState extends State<BuyScreen> {
                                             )),
                                   if (cert != null)
                                     Positioned(
-                                      top: size.height * 0.02, 
+                                      top: size.height * 0.02,
                                       child: Padding(
-                                        padding:  EdgeInsets.all(size.height*0.05),
+                                        padding:
+                                            EdgeInsets.all(size.height * 0.05),
                                         child: Container(
-                                          height: size.height*0.5,
-                                          width: size.width*0.8,
+                                          height: size.height * 0.5,
+                                          width: size.width * 0.8,
                                           child: Center(
-                                            child: Image(
-                                                  image: cert!.image,
-                                                  
-                                                  fit: BoxFit.contain),
+                                            child: widget.isvideo
+                                                ? Container(
+                                                    height: size.height * 0.5,
+                                                    width: size.width * 0.60,
+                                                    child: Stack(children: [
+                                                      Positioned.fill(
+                                                          child: VideoPlayerWidget(
+                                                              videoUrl: widget
+                                                                  .certificate_video!
+                                                                  .backgroundVideo
+                                                                  .toString())),
+                                                      Positioned(
+                                                          top: size.height *
+                                                              0.43,
+                                                          right:
+                                                              size.width * 0.01,
+                                                          left:
+                                                              size.width * 0.33,
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceAround,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              VariableText(
+                                                                text: widget
+                                                                        .CertificateName
+                                                                    .toUpperCase(),
+                                                                fontcolor: HexColor(widget
+                                                                    .certificate_video!
+                                                                    .textColor
+                                                                    .toString()),
+                                                                fontsize: widget
+                                                                            .CertificateName
+                                                                            .length >
+                                                                        12
+                                                                    ? size.height *
+                                                                        0.008
+                                                                    : size.height *
+                                                                        0.011,
+                                                                fontFamily:
+                                                                    fontBold,
+                                                                weight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                max_lines: 1,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                              VariableText(
+                                                                text:
+                                                                    "@${userdata.username!.toString()}",
+                                                                fontcolor: HexColor(widget
+                                                                    .certificate_video!
+                                                                    .textColor
+                                                                    .toString()),
+                                                                fontsize: widget
+                                                                            .CertificateName
+                                                                            .length >
+                                                                        12
+                                                                    ? size.height *
+                                                                        0.0085
+                                                                    : size.height *
+                                                                        0.009,
+                                                                fontFamily:
+                                                                    fontBold,
+                                                                weight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                max_lines: 1,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                            ],
+                                                          )),
+                                                      widget.isvideo
+                                                          ? Positioned(
+                                                              top: size.height *
+                                                                  0.428,
+                                                              right:
+                                                                  size.width *
+                                                                      0.33,
+                                                              left: size.width *
+                                                                  0.02,
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceAround,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  VariableText(
+                                                                    text: widget
+                                                                        .certificate_video!
+                                                                        .fanMatchTitle
+                                                                        .toString()
+                                                                        .toUpperCase(),
+                                                                    fontcolor: HexColor(widget
+                                                                        .certificate_video!
+                                                                        .textColor
+                                                                        .toString()),
+                                                                    fontsize:
+                                                                        size.height *
+                                                                            0.018,
+                                                                    fontFamily:
+                                                                        fontBold,
+                                                                    weight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    max_lines:
+                                                                        1,
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .start,
+                                                                  ),
+                                                                  VariableText(
+                                                                    text: widget
+                                                                        .certificate_video!
+                                                                        .serialNo
+                                                                        .toString(),
+                                                                    fontcolor: HexColor(widget
+                                                                        .certificate_video!
+                                                                        .serialColor
+                                                                        .toString()),
+                                                                    fontsize:
+                                                                        size.height *
+                                                                            0.009,
+                                                                    fontFamily:
+                                                                        fontBold,
+                                                                    weight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    max_lines:
+                                                                        1,
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                  ),
+                                                                ],
+                                                              ))
+                                                          : Container(),
+                                                      widget.isvideo
+                                                          ? Positioned(
+                                                              top: size.height *
+                                                                  0.47,
+                                                              right:
+                                                                  size.width *
+                                                                      0.25,
+                                                              left: size.width *
+                                                                  0.25,
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    height: size
+                                                                            .height *
+                                                                        0.02,
+                                                                    width: size
+                                                                            .height *
+                                                                        0.02,
+                                                                    child: Image
+                                                                        .network(
+                                                                      widget
+                                                                          .certificate_video!
+                                                                          .icon1
+                                                                          .toString(),
+                                                                      // fit: BoxFit.contain,
+                                                                      scale: 2,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: size
+                                                                            .height *
+                                                                        0.02,
+                                                                    width: size
+                                                                            .height *
+                                                                        0.02,
+                                                                    child: Image
+                                                                        .network(
+                                                                      widget
+                                                                          .certificate_video!
+                                                                          .icon2
+                                                                          .toString(),
+                                                                      // fit: BoxFit.contain,
+                                                                      scale: 2,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ))
+                                                          : Container()
+                                                    ]),
+                                                  )
+                                                : Image(
+                                                    image: cert!.image,
+                                                    fit: BoxFit.contain),
                                           ),
                                         ),
                                       ),

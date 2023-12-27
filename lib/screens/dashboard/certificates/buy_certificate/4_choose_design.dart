@@ -691,7 +691,7 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                               widget.isvideo
                                                   ? Positioned(
                                                       top: widget.fanmatch
-                                                          ? size.height * 0.43
+                                                          ? size.height * 0.428
                                                           : widget.type ==
                                                                   "Digital"
                                                               ? size.height *
@@ -734,7 +734,7 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                                                   fontsize: widget
                                                                           .fanmatch
                                                                       ? size.height *
-                                                                          0.02
+                                                                          0.018
                                                                       : widget.type ==
                                                                               "Digital"
                                                                           ? size.height *
@@ -1031,6 +1031,8 @@ class _ChooseDesignScreenState extends State<ChooseDesignScreen>
                                 id: certId.toString(),
                                 FanMatch: widget.fanmatch,
                                 userName: "@${userdata.username.toString()}",
+                                certificate_video: TeamCertificate[indexx],
+                                isvideo: true,
                               )));
                         }
                       },
@@ -1084,7 +1086,9 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           );
         } else {
           return Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: primaryColor1,
+            ),
           );
         }
       },

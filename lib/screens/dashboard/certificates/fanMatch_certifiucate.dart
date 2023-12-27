@@ -190,75 +190,78 @@ class _CertificatesScreenFanMatchState
                 children: [
                   Expanded(
                     child: SizedBox(
-                        height: size.height * 0.05,
-                        child: InputDecorator(
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: primaryColorW,
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(200),
-                                  borderSide: BorderSide(
-                                      color: primaryColorW, width: 2.0)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(200),
-                                  borderSide: BorderSide(
-                                      color: primaryColorW, width: 2.0)),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(200),
-                                  borderSide: BorderSide(
-                                      color: primaryColorW, width: 2.0)),
-                              contentPadding: EdgeInsets.all(10),
+                      height: size.height * 0.05,
+                      child: InputDecorator(
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: primaryColorW,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(200),
+                            borderSide:
+                                BorderSide(color: primaryColorW, width: 2.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(200),
+                            borderSide:
+                                BorderSide(color: primaryColorW, width: 2.0),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(200),
+                            borderSide:
+                                BorderSide(color: primaryColorW, width: 2.0),
+                          ),
+                          contentPadding: EdgeInsets.all(10),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            icon: Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Image.asset('assets/icons/ic_dropdown.png',
+                                  color: textColor1, scale: 2),
                             ),
-                            child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                    icon: Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: Image.asset(
-                                          'assets/icons/ic_dropdown.png',
-                                          color: textColor1,
-                                          scale: 2),
-                                    ),
-                                    hint: Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: VariableText(
-                                        text: "All",
-                                        fontsize: size.height * 0.014,
-                                        fontcolor: textColor2,
-                                        fontFamily: fontMedium,
-                                      ),
-                                    ),
-                                    value: selectedType,
-                                    dropdownColor: primaryColorW,
-                                    isExpanded: true,
-                                    onTap: () {
-                                      FocusScope.of(context).unfocus();
-                                    },
-                                    onChanged: (String? value) {
-                                      setState(() {
-                                        selectedType = value;
-                                      });
-                                      getshowcasecertificate(selectedType!);
-                                    },
-                                    style: TextStyle(
-                                        fontSize: size.height * 0.012,
-                                        color: textColor1),
-                                    items: Constants.certTypeformatch
-                                        .map<DropdownMenuItem<String>>(
-                                            (String item) {
-                                      return DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                          child: VariableText(
-                                            text: item,
-                                            fontsize: size.height * 0.014,
-                                            fontcolor: textColor1,
-                                            fontFamily: fontSemiBold,
-                                          ),
-                                        ),
-                                      );
-                                    }).toList())))),
+                            hint: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: VariableText(
+                                text: "All",
+                                fontsize: size.height * 0.014,
+                                fontcolor: textColor2,
+                                fontFamily: fontMedium,
+                              ),
+                            ),
+                            value: selectedType,
+                            dropdownColor: primaryColorW,
+                            isExpanded: true,
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                            },
+                            onChanged: (String? value) {
+                              setState(() {
+                                selectedType = value;
+                              });
+                              getshowcasecertificate(selectedType!);
+                            },
+                            style: TextStyle(
+                                fontSize: size.height * 0.012,
+                                color: textColor1),
+                            items: Constants.certTypeformatch
+                                .map<DropdownMenuItem<String>>((String item) {
+                              return DropdownMenuItem<String>(
+                                value: item,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: VariableText(
+                                    text: item,
+                                    fontsize: size.height * 0.014,
+                                    fontcolor: textColor1,
+                                    fontFamily: fontSemiBold,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                   SizedBox(width: size.width * 0.03),
                   Expanded(
@@ -367,19 +370,29 @@ class _CertificatesScreenFanMatchState
                                         context,
                                         SwipeLeftAnimationRoute(
                                           widget: CertificateFullview(
-                                            image: certtemp[index],
-                                            scan: false,
-                                            show: widget.isshow,
-                                            id: "1",
-                                          ),
+                                              image: certtemp[index],
+                                              scan: false,
+                                              show: widget.isshow,
+                                              id: "1",
+                                              Certificate_Show_Video:
+                                                  TeamCertificate[index],
+                                              isvideo: TeamCertificate[index]
+                                                  .certificate!
+                                                  .fanmatchType ==
+                                                  "video"
+                                                  ? true
+                                                  : false),
                                         ),
                                       );
                                     },
                                     child: certtemp.isNotEmpty
-                                        ? TeamCertificate[index].id == ""
+                                        ? TeamCertificate[index]
+                                                    .certificate!
+                                                    .fanmatchType ==
+                                                "video"
                                             ? VideoPlayerWidget(
                                                 videoUrl: TeamCertificate[index]
-                                                    .img
+                                                    .fanmatchVideo
                                                     .toString())
                                             : Image(
                                                 image: certtemp[index].image,
@@ -416,22 +429,40 @@ class _CertificatesScreenFanMatchState
                                           context,
                                           SwipeLeftAnimationRoute(
                                             widget: CertificateFullview(
-                                              image: certtemp[index],
-                                              show: widget.isshow,
-                                              id: id.toString(),
-                                              scan: false,
-                                            ),
+                                                image: certtemp[index],
+                                                show: widget.isshow,
+                                                id: id.toString(),
+                                                scan: false,
+                                                Certificate_Show_Video:
+                                                    TeamCertificate[index],
+                                                isvideo: TeamCertificate[index]
+                                                    .certificate!
+                                                    .fanmatchType ==
+                                                    "video"
+                                                    ? true
+                                                    : false),
                                           ),
                                         );
                                       },
                                       child: Container(
                                         child: certtemp.isNotEmpty
-                                            ? Image(
-                                                image: certtemp[index].image,
-                                                fit: BoxFit.cover,
-                                                height: size.height * 0.4,
-                                                width: size.width * 0.5,
-                                              )
+                                            ? TeamCertificate[index]
+                                                        .certificate!
+                                                        .fanmatchType ==
+                                                    "video"
+                                                ? VideoPlayerWidget(
+                                                    videoUrl:
+                                                        TeamCertificate[index]
+                                                            .fanmatchVideo
+                                                            .toString())
+                                                : Image(
+                                                    image:
+                                                        certtemp[index].image,
+                                                    fit: BoxFit.contain,
+                                                    // height: size.height * 0.4,
+                                                    //   width: size.width * 0.5,
+                                                    // width: size.width,
+                                                  )
                                             : Container(),
                                       ),
                                     ),

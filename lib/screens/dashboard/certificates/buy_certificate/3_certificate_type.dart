@@ -23,7 +23,7 @@ class CertificateTypeScreen extends StatefulWidget {
 }
 
 class _CertificateTypeScreenState extends State<CertificateTypeScreen> {
-  List<String> Fanmatchtypes = ["Video FanMatch", "Image FanMatch"];
+  List<String> Fanmatchtypes = ["Video FanMatch", "Pic FanMatch"];
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;

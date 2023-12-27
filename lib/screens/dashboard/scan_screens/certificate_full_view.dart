@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fan_hall/controller/auth/league_api.dart';
+import 'package:fan_hall/models/showcase.dart';
 import 'package:fan_hall/providers/userProvider.dart';
 import 'package:fan_hall/screens/dashboard/certificates/buy_certificate/1_pick_category.dart';
 import 'package:fan_hall/screens/dashboard/certificates/buy_certificate/4_choose_design.dart';
@@ -29,14 +30,16 @@ class CertificateFullview extends StatefulWidget {
   final bool? scan;
   final bool? show;
   final bool? isvideo;
+  ShowCase? Certificate_Show_Video;
   final String? imageofcert;
   final Image? image;
   final String? id;
 
-  const CertificateFullview(
+   CertificateFullview(
       {Key? key,
       this.image,
       this.imageofcert,
+        this.Certificate_Show_Video,
       required this.scan,
       this.isvideo = false,
       required this.show,
@@ -318,7 +321,7 @@ class _CertificateFullviewState extends State<CertificateFullview> {
                                           _showDialog();
                                         },
                                         child: widget.isvideo!
-                                            ? VideoPlayerWidget(videoUrl: "")
+                                            ? VideoPlayerWidget(videoUrl: widget.Certificate_Show_Video!.fanmatchVideo.toString())
                                             : image1 != null
                                                 ? Image(
                                                     image: image1!.image,
@@ -333,7 +336,9 @@ class _CertificateFullviewState extends State<CertificateFullview> {
                                       key: widget.scan!
                                           ? GlobalKey()
                                           : _globalKey,
-                                      child: widget.image != null
+                                      child: widget.isvideo!
+                                          ? VideoPlayerWidget(videoUrl: widget.Certificate_Show_Video!.fanmatchVideo.toString())
+                                          : widget.image != null
                                           ? Image(
                                               image: widget.image!.image,
                                               fit: BoxFit.cover,
