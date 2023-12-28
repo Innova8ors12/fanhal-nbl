@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:open_file/open_file.dart';
+import 'package:http/http.dart' as http;
 import 'dart:ui' as ui;
 import 'package:pdf/widgets.dart' as pw;
 import 'package:hexcolor/hexcolor.dart';
@@ -35,11 +36,11 @@ class CertificateFullview extends StatefulWidget {
   final Image? image;
   final String? id;
 
-   CertificateFullview(
+  CertificateFullview(
       {Key? key,
       this.image,
       this.imageofcert,
-        this.Certificate_Show_Video,
+      this.Certificate_Show_Video,
       required this.scan,
       this.isvideo = false,
       required this.show,
@@ -237,6 +238,16 @@ class _CertificateFullviewState extends State<CertificateFullview> {
     }
   }
 
+  Future<void> _downloadAndShare(String videoUrl) async {
+    final http.Response response = await http.get(Uri.parse(videoUrl));
+    final Directory tempDir = await getTemporaryDirectory();
+    final File tempFile = File('${tempDir.path}/video.mp4');
+    await tempFile.writeAsBytes(response.bodyBytes);
+
+    // Share the downloaded video
+    Share.shareFiles([tempFile.path], text: 'Check out this video!');
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -321,7 +332,11 @@ class _CertificateFullviewState extends State<CertificateFullview> {
                                           _showDialog();
                                         },
                                         child: widget.isvideo!
-                                            ? VideoPlayerWidget(videoUrl: widget.Certificate_Show_Video!.fanmatchVideo.toString())
+                                            ? VideoPlayerWidget(
+                                                videoUrl: widget
+                                                    .Certificate_Show_Video!
+                                                    .fanmatchVideo
+                                                    .toString())
                                             : image1 != null
                                                 ? Image(
                                                     image: image1!.image,
@@ -337,13 +352,17 @@ class _CertificateFullviewState extends State<CertificateFullview> {
                                           ? GlobalKey()
                                           : _globalKey,
                                       child: widget.isvideo!
-                                          ? VideoPlayerWidget(videoUrl: widget.Certificate_Show_Video!.fanmatchVideo.toString())
+                                          ? VideoPlayerWidget(
+                                              videoUrl: widget
+                                                  .Certificate_Show_Video!
+                                                  .fanmatchVideo
+                                                  .toString())
                                           : widget.image != null
-                                          ? Image(
-                                              image: widget.image!.image,
-                                              fit: BoxFit.cover,
-                                            )
-                                          : Container(),
+                                              ? Image(
+                                                  image: widget.image!.image,
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : Container(),
                                     ),
                                   ),
                           ),
@@ -392,7 +411,14 @@ class _CertificateFullviewState extends State<CertificateFullview> {
                                 SizedBox(width: size.width * 0.04),
                                 InkWell(
                                     onTap: () {
-                                      saveAsImage(true);
+                                      if (widget.isvideo!) {
+                                        _downloadAndShare(widget
+                                            .Certificate_Show_Video!
+                                            .fanmatchVideo
+                                            .toString());
+                                      } else {
+                                        saveAsImage(true);
+                                      }
                                     },
                                     child: Icon(Icons.share, color: textColorW))
                               ],
@@ -433,7 +459,14 @@ class _CertificateFullviewState extends State<CertificateFullview> {
                                 SizedBox(width: size.width * 0.04),
                                 InkWell(
                                     onTap: () {
-                                      saveAsImage(true);
+                                      if (widget.isvideo!) {
+                                        _downloadAndShare(widget
+                                            .Certificate_Show_Video!
+                                            .fanmatchVideo
+                                            .toString());
+                                      } else {
+                                        saveAsImage(true);
+                                      }
                                     },
                                     child: Icon(Icons.share, color: textColorW))
                               ],

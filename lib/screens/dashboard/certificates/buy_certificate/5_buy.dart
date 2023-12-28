@@ -163,7 +163,11 @@ class _BuyScreenState extends State<BuyScreen> {
 
     if (res['status'] && res != null) {
       certPdf = res['data'];
-      amount = res['amount'];
+      if (widget.isvideo) {
+        amount = widget.certificate_video!.price.toString();
+      } else {
+        amount = res['amount'];
+      }
       // amount=res['amount'];
       setState(() {});
       print("ye pdf hai $res['data']");
@@ -182,7 +186,11 @@ class _BuyScreenState extends State<BuyScreen> {
 
     // _pdfModel = PdfModel.fromJson();
     certPdf = res['data'];
-    amount = res['amount'];
+    if (widget.isvideo) {
+      amount = widget.certificate_video!.price.toString();
+    } else {
+      amount = res['amount'];
+    }
     // amount=res['amount'];
     setState(() {});
     print("ye pdf hai $res['data']");
